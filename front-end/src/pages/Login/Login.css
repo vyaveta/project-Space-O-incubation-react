@@ -1,0 +1,86 @@
+
+.login-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: url(https://www.wallpaperflare.com/static/914/15/690/maldives-tropical-beach-resort-wallpaper.jpg);
+    background-size: cover;
+}
+.login-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    height: 70vh;
+    min-width: 300px;
+    width: 30vw;
+    background: rgba(255,255,255,0.8);
+    border-radius: 1rem;
+}
+.login__title h2{
+    color: #381c2a;
+}
+.login__box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.login__box input{
+    width: 80%;
+    outline: none;
+    border: none;
+    text-align: center;
+    height: 2rem;
+    border-radius: .2rem;
+    background: transparent;
+    /* box-shadow: inset 1px 1px 1px 1px #333; */
+    border-bottom: 2px solid #333;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.login__box button{
+    width: 60%;
+    padding: .6rem;
+    border:none;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    background: rebeccapurple;
+    background-size: 26rem 5rem;
+    border-radius: 1rem;
+    color: whitesmoke;
+}
+
+.input__div__2{
+    position: relative;
+    display: flex;
+    width: 80%;
+    justify-content: space-around;
+}
+.input__div__2 input {
+    flex: 2;
+}
+.input__div__2 label span{
+    color: green;
+    left: 0;
+    position: absolute ;
+    font-size: 1.4rem;
+}
+.hide{
+    display: none;
+}
+.invalid{
+    color: red !important;
+}
+.offscreen{
+    display: none;
+}
+.instructions{
+    color: #333;
+    padding: 0 1rem;
+    font-size: 12px;
+}
