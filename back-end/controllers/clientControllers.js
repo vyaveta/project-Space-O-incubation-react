@@ -44,11 +44,15 @@ module.exports.clientRegister = (req, res, next) => __awaiter(void 0, void 0, vo
 });
 module.exports.clientAuthentication = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (req.body.googleAccount) {
-            const { email } = req.body;
+        if (req.body.isGoogleAccount) {
+            const { email, isGoogleAccount, user } = req.body;
             const client = yield Client.findOne({ email });
             if (!client) {
+                const client = yield Client.create({ clientname: user, email, googleAccount: isGoogleAccount });
+                res.json({ status: true, client, msg: 'Logging in with your google account!' });
             }
+            else
+                return res.json({ status: true, msg: 'Logging in with your google account!', client });
         }
         else {
             const { email, password } = req.body;
@@ -59,7 +63,7 @@ module.exports.clientAuthentication = (req, res, next) => __awaiter(void 0, void
             if (!isPasswordValid)
                 return res.json({ status: false, msg: 'Password Authenticatin failed!' });
             delete client.password;
-            return res.json({ status: true, msg: 'Login Success!' });
+            return res.json({ status: true, msg: 'Login Success!', client });
         }
     }
     catch (ex) {

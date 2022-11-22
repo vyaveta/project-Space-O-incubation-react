@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import {toast } from 'react-toastify'
 import axios from 'axios';
 import { clientLoginRoute } from '../../utils/APIRoutes';
+import jwt_decode from 'jwt-decode'
 
 function Login() {
     const navigate = useNavigate()
@@ -26,8 +27,14 @@ function Login() {
         theme: "light"
     }
 
-    const handleCallbackGoogle = (response) => {
-
+    const handleCallbackGoogle = async (response) => {
+        let userObj = await jwt_decode(response.credential)
+        if(userObj) {
+            console.log('here its working')
+            const {data} = await axios.post(clientLoginRoute,{user: userObj.given_name,email: userObj.email,isGoogleAccount:userObj.picture})
+            if(data.status===false) handleError(data.msg)
+            else toast.success(data.msg,toastOptions)
+        }
     }
     const handleSubmit = async () => {
         if(email.trim()==='') handleError('Enter email!')

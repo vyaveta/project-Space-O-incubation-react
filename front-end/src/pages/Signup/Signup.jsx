@@ -57,7 +57,6 @@ const Signup = () => {
 
     const handleCallbackGoogle = async (response) => {
         let userObj = await jwt_decode(response.credential)
-        
         console.log(userObj)
        if(userObj){
         console.log(user,email,isGoogleAccount,'is the values')

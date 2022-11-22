@@ -33,12 +33,14 @@ module.exports.clientRegister = async (req : any ,res : any,next :any)  => {
 
 module.exports.clientAuthentication = async (req :any , res : any , next : any) => {
     try{
-        if(req.body.googleAccount){
-            const { email } : {email: String} = req.body
+        if(req.body.isGoogleAccount){
+            const { email , isGoogleAccount , user } : {email: String , isGoogleAccount: any , user : String} = req.body
             const client = await Client.findOne({email})
             if(!client) {
-                
+                const client = await Client.create({clientname: user , email , googleAccount : isGoogleAccount })
+                res.json({status: true , client , msg: 'Logging in with your google account!'})
             }
+            else return res.json({ status: true , msg: 'Logging in with your google account!' , client })
         }else{
             const { email , password } : {email : string, password : string} = req.body
             const client = await Client.findOne({email})
@@ -46,7 +48,7 @@ module.exports.clientAuthentication = async (req :any , res : any , next : any) 
             const isPasswordValid = await bcrypt.compare(password,client.password)
             if (!isPasswordValid) return res.json({status: false , msg:'Password Authenticatin failed!'})
             delete client.password
-            return res.json({status: true, msg: 'Login Success!'})
+            return res.json({status: true, msg: 'Login Success!' , client})
         }
     }catch(ex){
         console.log(ex,'is the error that occured in the clientAuthentication function in the clientControllers.ts')
