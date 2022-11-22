@@ -87,10 +87,11 @@ const Signup = () => {
         else if(!validPwd) handleError('Your password is weak!')
         else if(!validMatch) handleError('Passwords doesnt match!')
         else {
-            toast.loading('Registration in progress....',toastOptions)
+            const toastLoadingId = toast.loading('Registration in progress....',toastOptions)
             const {data} = await axios.post(ClientRegister,{user,pwd,email})
-            console.log(data ,'is the response ') ; toast.dismiss()
-            if(data.status)  toast.success('Account Created!',toastOptions)
+            console.log(data ,'is the response ') 
+            if(data.status)  toast.update(toastLoadingId, { render: "Account created", type: "success", isLoading: false  });
+            else   toast.update(toastLoadingId, { render: data.msg, type: "error", isLoading: false  });
         }
        }catch(err){
         console.log(err,'is the error occured in the handleSubmit function in the Signup.jsx')
