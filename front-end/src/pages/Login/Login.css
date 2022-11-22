@@ -1,13 +1,53 @@
 
 .login-wrapper{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    width: 100vw;
+    overflow: hidden;
+    max-width: 100vw;
     background: url(https://www.pixel4k.com/wp-content/uploads/2018/10/forest-dark-evening-sunset-last-light-minimalistic-4k_1540756045.jpg);
     background-size: cover;
 }
+.clouds{
+    max-width: 100vw;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+}
+.clouds :nth-child(1){
+    width: 100vw;
+    height: 10rem;
+    object-fit: contain;
+    animation: clouds 60s linear infinite;
+}
+.clouds :nth-child(2){
+    position: absolute;
+    top: 1;
+    width: 100vw;
+    height: 10rem;
+    object-fit: contain;
+    animation: clouds2 62s linear infinite;
+}
+
+@keyframes clouds{
+    0% {
+        transform: translateX(-3000px);
+    }
+    100% {
+        transform: translateX(1500px);
+    }
+}
+@keyframes clouds2{
+    0% {
+        transform: translateX(-3000px);
+    }
+    100% {
+        transform: translateX(1500px);
+    }
+}
+
 .login-container{
     display: flex;
     justify-content: space-evenly;

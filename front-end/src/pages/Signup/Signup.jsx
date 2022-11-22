@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import { ClientRegister } from '../../utils/APIRoutes';
+import  cloud  from '../../assets/cloud.png'
 
 const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[0-9])(?=.*[!@#$%^&()/.,_*])[a-zA-Z0-9!@#$%^&()/.,_*]{6,16}$/;
@@ -129,6 +130,10 @@ const Signup = () => {
 
   return (
         <div className="login-wrapper">
+            <div className="clouds">
+            <img src={cloud} alt="" />
+            <img src={cloud} alt="" />
+        </div>
             <div className="login-container">
                 <div className="login__title">
                     <h2>Register</h2>

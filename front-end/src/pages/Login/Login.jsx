@@ -6,6 +6,7 @@ import {toast } from 'react-toastify'
 import axios from 'axios';
 import { clientLoginRoute } from '../../utils/APIRoutes';
 import jwt_decode from 'jwt-decode'
+import  cloud  from '../../assets/cloud.png'
 
 function Login() {
     const navigate = useNavigate()
@@ -64,6 +65,10 @@ function Login() {
   return (
     
     <div className="login-wrapper">
+        <div className="clouds">
+            <img src={cloud} alt="" />
+            <img src={cloud} alt="" />
+        </div> 
     <div className="login-container">
         <div className="login__title">
             <h2>Login</h2>
