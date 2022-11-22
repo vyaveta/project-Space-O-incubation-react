@@ -86,10 +86,12 @@ const Signup = () => {
         else if(!validName) handleError('This type of username are not allowed')
         else if(!validPwd) handleError('Your password is weak!')
         else if(!validMatch) handleError('Passwords doesnt match!')
-        else toast.loading('Registration in progress....',toastOptions)
-
-        const response = await axios.post(ClientRegister,{user,pwd,email})
-
+        else {
+            toast.loading('Registration in progress....',toastOptions)
+            const {data} = await axios.post(ClientRegister,{user,pwd,email})
+            console.log(data ,'is the response ') ; toast.dismiss()
+            if(data.status)  toast.success('Account Created!',toastOptions)
+        }
        }catch(err){
         console.log(err,'is the error occured in the handleSubmit function in the Signup.jsx')
        }
