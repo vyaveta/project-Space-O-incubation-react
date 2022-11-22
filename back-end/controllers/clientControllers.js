@@ -12,15 +12,30 @@ const bcrypt = require('bcrypt');
 const Client = require('../model/clientModel');
 module.exports.clientRegister = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { user, pwd, email } = req.body;
-        console.log(user, pwd, email);
-        const emailCheck = yield Client.findOne({ email });
-        if (emailCheck)
-            return res.json({ msg: 'Account already exists', staus: false });
-        const hashedPassword = yield bcrypt.hash(pwd, 10);
-        const client = yield Client.create({ clientname: user, email, password: hashedPassword });
-        delete client.password;
-        return res.json({ status: true, client });
+        if (req.body.pwd) {
+            const { user, pwd, email } = req.body;
+            console.log(user, pwd, email);
+            const emailCheck = yield Client.findOne({ email });
+            if (emailCheck)
+                return res.json({ msg: 'Account already exists', staus: false });
+            const hashedPassword = yield bcrypt.hash(pwd, 10);
+            const client = yield Client.create({ clientname: user, email, password: hashedPassword });
+            delete client.password;
+            return res.json({ status: true, client, msg: 'Accont Created!' });
+        }
+        else {
+            const { user, isGoogleAccount, email } = req.body;
+            console.log(req.body, 'is the req body');
+            const emailCheck = yield Client.findOne({ email });
+            if (!emailCheck) {
+                const client = yield Client.create({ clientname: user, email, googleAccount: isGoogleAccount });
+                res.json({ status: true, client, msg: 'Logging in with your google account!' });
+            }
+            else {
+                const client = { clientname: user, email, googleAccount: isGoogleAccount };
+                res.json({ status: true, client, msg: 'Logging in with your google account!' });
+            }
+        }
     }
     catch (err) {
         console.log(err, 'is the error that occured in the clientRegister function in the clientControllers');

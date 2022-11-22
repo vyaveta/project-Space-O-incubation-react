@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import jwt_decode from 'jwt-decode'
 import { ClientRegister } from '../../utils/APIRoutes';
 
 const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{3,23}$/;
@@ -22,6 +23,7 @@ const Signup = () => {
     const errRef = useRef()
 
     const [user, setUser] = useState('')
+    const [isGoogleAccount,setIsGoogleAccount] = useState(false)
     const [validName, setValidName] = useState(false)
     const [userFocus, setUserFocus] = useState(false)
     const [email,setEmail] = useState('')
@@ -45,6 +47,25 @@ const Signup = () => {
         draggable: true,
         progress: undefined,
         theme: "light"
+    }
+
+    // functions
+
+    const handleError = (msg) => {
+        toast.error(msg,toastOptions)
+    }
+
+    const handleCallbackGoogle = async (response) => {
+        let userObj = await jwt_decode(response.credential)
+        console.log(userObj.email,userObj.family_name,userObj.picture)
+       if(userObj){
+        console.log(user,email,isGoogleAccount,'is the values')
+        const {data} = await axios.post(ClientRegister,{user: userObj.family_name,email: userObj.email,isGoogleAccount:userObj.picture})
+       console.log(data,'is the data from the google signin')
+       const toastLoadingId = toast.loading('Registration in progress....',toastOptions)
+       if(data.status)  toast.update(toastLoadingId, { render: data.msg , type: "success", isLoading: false  });
+           else   toast.update(toastLoadingId, { render: data.msg, type: "error", isLoading: false  });
+       }
     }
 
     // Now some useEffects
@@ -74,11 +95,19 @@ const Signup = () => {
         setErrMsg('')
     },[user,pwd,matchPwd])
 
-    // functions
+    useEffect(() => {
+        google.accounts.id.initialize({
+            client_id: '880019132334-5q1n8crc19h8fn9luukc0ksc2kgvmt8j.apps.googleusercontent.com',
+            callback: handleCallbackGoogle
+        })
+        google.accounts.id.renderButton(
+            document.getElementById('googleSignIn'),{
+                theme: 'outlime', size: 'large'
+            }
+        )
+    },[])
 
-    const handleError = (msg) => {
-        toast.error(msg,toastOptions)
-    }
+   
 
     const handleSubmit = async () => {
        try{
@@ -90,7 +119,7 @@ const Signup = () => {
             const toastLoadingId = toast.loading('Registration in progress....',toastOptions)
             const {data} = await axios.post(ClientRegister,{user,pwd,email})
             console.log(data ,'is the response ') 
-            if(data.status)  toast.update(toastLoadingId, { render: "Account created", type: "success", isLoading: false  });
+            if(data.status)  toast.update(toastLoadingId, { render: data.msg , type: "success", isLoading: false  });
             else   toast.update(toastLoadingId, { render: data.msg, type: "error", isLoading: false  });
         }
        }catch(err){
@@ -201,6 +230,9 @@ const Signup = () => {
                 </div>
                 <div className="login__box">
                     <button className="login__button" onClick={handleSubmit} >Register</button>
+                </div>
+                <div className="login__box" id='googleSignIn'>
+                   
                 </div>
                 <div className="login__box">
                     <p>Already have an Account? <span 
