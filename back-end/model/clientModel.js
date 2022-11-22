@@ -12,6 +12,9 @@ const clientSchema = new mongoose__client.Schema({
     },
     googleAccount: {
         type: mongoose__client.Schema.Types.Mixed, default: false
+    },
+    isBanned: {
+        type: Boolean, default: false
     }
 });
 module.exports = mongoose__client.model('Clients', clientSchema);

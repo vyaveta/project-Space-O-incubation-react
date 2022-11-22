@@ -42,3 +42,28 @@ module.exports.clientRegister = (req, res, next) => __awaiter(void 0, void 0, vo
         return res.json({ status: false, msg: 'Something went wrong' });
     }
 });
+module.exports.clientAuthentication = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (req.body.googleAccount) {
+            const { email } = req.body;
+            const client = yield Client.findOne({ email });
+            if (!client) {
+            }
+        }
+        else {
+            const { email, password } = req.body;
+            const client = yield Client.findOne({ email });
+            if (!client)
+                return res.json({ status: false, msg: 'No account with entered email, Try sign in with google.' });
+            const isPasswordValid = yield bcrypt.compare(password, client.password);
+            if (!isPasswordValid)
+                return res.json({ status: false, msg: 'Password Authenticatin failed!' });
+            delete client.password;
+            return res.json({ status: true, msg: 'Login Success!' });
+        }
+    }
+    catch (ex) {
+        console.log(ex, 'is the error that occured in the clientAuthentication function in the clientControllers.ts');
+        return res.json({ status: false, msg: 'Something went wrong in the backend!' });
+    }
+});

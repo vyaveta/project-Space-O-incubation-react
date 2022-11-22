@@ -39,7 +39,7 @@ const Signup = () => {
     const [errMsg,setErrMsg] = useState()
 
     const toastOptions =  {
-        position: "top-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -57,14 +57,15 @@ const Signup = () => {
 
     const handleCallbackGoogle = async (response) => {
         let userObj = await jwt_decode(response.credential)
-        console.log(userObj.email,userObj.family_name,userObj.picture)
+        
+        console.log(userObj)
        if(userObj){
         console.log(user,email,isGoogleAccount,'is the values')
-        const {data} = await axios.post(ClientRegister,{user: userObj.family_name,email: userObj.email,isGoogleAccount:userObj.picture})
+        const {data} = await axios.post(ClientRegister,{user: userObj.given_name,email: userObj.email,isGoogleAccount:userObj.picture})
        console.log(data,'is the data from the google signin')
-       const toastLoadingId = toast.loading('Registration in progress....',toastOptions)
-       if(data.status)  toast.update(toastLoadingId, { render: data.msg , type: "success", isLoading: false  });
-           else   toast.update(toastLoadingId, { render: data.msg, type: "error", isLoading: false  });
+      
+       if(data.status)  toast.success(data.msg,toastOptions);
+           else   handleError(data.msg)
        }
     }
 
@@ -102,7 +103,7 @@ const Signup = () => {
         })
         google.accounts.id.renderButton(
             document.getElementById('googleSignIn'),{
-                theme: 'outlime', size: 'large'
+                theme: 'outlime', size: 'large' 
             }
         )
     },[])
@@ -231,9 +232,7 @@ const Signup = () => {
                 <div className="login__box">
                     <button className="login__button" onClick={handleSubmit} >Register</button>
                 </div>
-                <div className="login__box" id='googleSignIn'>
-                   
-                </div>
+                <div className="login__box" id='googleSignIn'></div>
                 <div className="login__box">
                     <p>Already have an Account? <span 
                     style={{ textDecoration: 'underline', cursor: 'pointer' }} 

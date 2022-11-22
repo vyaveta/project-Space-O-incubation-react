@@ -12,6 +12,9 @@ const clientSchema : any = new mongoose__client.Schema({
     },
     googleAccount : {
         type:  mongoose__client.Schema.Types.Mixed, default: false
+    },
+    isBanned :{
+        type : Boolean , default : false
     }
 })
 

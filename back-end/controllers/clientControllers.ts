@@ -30,3 +30,26 @@ module.exports.clientRegister = async (req : any ,res : any,next :any)  => {
         return res.json({status: false, msg: 'Something went wrong'})
     }
 }
+
+module.exports.clientAuthentication = async (req :any , res : any , next : any) => {
+    try{
+        if(req.body.googleAccount){
+            const { email } : {email: String} = req.body
+            const client = await Client.findOne({email})
+            if(!client) {
+                
+            }
+        }else{
+            const { email , password } : {email : string, password : string} = req.body
+            const client = await Client.findOne({email})
+            if(!client) return res.json({status: false , msg: 'No account with entered email, Try sign in with google.'})
+            const isPasswordValid = await bcrypt.compare(password,client.password)
+            if (!isPasswordValid) return res.json({status: false , msg:'Password Authenticatin failed!'})
+            delete client.password
+            return res.json({status: true, msg: 'Login Success!'})
+        }
+    }catch(ex){
+        console.log(ex,'is the error that occured in the clientAuthentication function in the clientControllers.ts')
+        return res.json({status: false, msg: 'Something went wrong in the backend!'})
+    }
+}
