@@ -23,6 +23,12 @@ module.exports.clientRegister = (req, res, next) => __awaiter(void 0, void 0, vo
             const hashedPassword = yield bcrypt.hash(pwd, 10);
             const client = yield Client.create({ clientname: user, email, password: hashedPassword });
             delete client.password;
+            const clientToken = jwt.sign({ client }, process.env.USER_TOKEN_SECRET, { expiresIn: '365d' });
+            res.cookie('clientToken', clientToken, {
+                withCredentials: true,
+                httpOnly: false,
+                maxAge: 1200209
+            });
             return res.json({ status: true, client, msg: 'Accont Created!' });
         }
         else {
@@ -31,12 +37,22 @@ module.exports.clientRegister = (req, res, next) => __awaiter(void 0, void 0, vo
             const emailCheck = yield Client.findOne({ email });
             if (!emailCheck) {
                 const client = yield Client.create({ clientname: user, email, googleAccount: isGoogleAccount });
-                res.json({ status: true, client, msg: 'Logging in with your google account!' });
+                const clientToken = jwt.sign({ client }, process.env.USER_TOKEN_SECRET, { expiresIn: '365d' });
+                res.cookie('clientToken', clientToken, {
+                    withCredentials: true,
+                    httpOnly: false,
+                    maxAge: 1200209
+                });
+                return res.json({ status: true, client, msg: 'Logging in with your google account!' });
             }
-            else {
-                const client = { clientname: user, email, googleAccount: isGoogleAccount };
-                res.json({ status: true, client, msg: 'Logging in with your google account!' });
-            }
+            const client = { clientname: user, email, googleAccount: isGoogleAccount };
+            const clientToken = jwt.sign({ client }, process.env.USER_TOKEN_SECRET, { expiresIn: '365d' });
+            res.cookie('clientToken', clientToken, {
+                withCredentials: true,
+                httpOnly: false,
+                maxAge: 1200209
+            });
+            return res.json({ status: true, client, msg: 'Logging in with your google account!' });
         }
     }
     catch (err) {
@@ -52,10 +68,15 @@ module.exports.clientAuthentication = (req, res, next) => __awaiter(void 0, void
             const client = yield Client.findOne({ email });
             if (!client) {
                 const client = yield Client.create({ clientname: user, email, googleAccount: isGoogleAccount });
-                res.json({ status: true, client, msg: 'Logging in with your google account!' });
+                return res.json({ status: true, client, msg: 'Logging in with your google account!' });
             }
-            else
-                return res.json({ status: true, msg: 'Logging in with your google account!', client });
+            const clientToken = jwt.sign({ client }, process.env.USER_TOKEN_SECRET, { expiresIn: '365d' });
+            res.cookie('clientToken', clientToken, {
+                withCredentials: true,
+                httpOnly: false,
+                maxAge: 1200209
+            });
+            return res.json({ status: true, msg: 'Logging in with your google account!', client });
         }
         else {
             console.log('The user is trying to login with a hardcoded account');
@@ -69,14 +90,12 @@ module.exports.clientAuthentication = (req, res, next) => __awaiter(void 0, void
                 return res.json({ status: false, msg: 'Password Authenticatin failed!' });
             // client.password = null // Im setting the password to null because the below code that was supposed to delete the client password is not working and I dont want the front end to get the client password!
             delete client.password;
-            console.log(client);
             const clientToken = jwt.sign({ client }, process.env.USER_TOKEN_SECRET, { expiresIn: '365d' });
             res.cookie('clientToken', clientToken, {
                 withCredentials: true,
                 httpOnly: false,
                 maxAge: 1200209
             });
-            console.log(clientToken, 'is the token');
             return res.json({ status: true, msg: 'Login Success!', client, clientToken });
         }
     }

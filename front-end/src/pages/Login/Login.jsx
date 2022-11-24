@@ -31,10 +31,10 @@ function Login() {
     const handleCallbackGoogle = async (response) => {
         let userObj = await jwt_decode(response.credential)
         if(userObj) {
-            console.log('here its working')
-            const {data} = await axios.post(clientLoginRoute,{user: userObj.given_name,email: userObj.email,isGoogleAccount:userObj.picture})
-            if(data.status===false) handleError(data.msg)
-            else toast.success(data.msg,toastOptions)
+            const {data} = await axios.post(clientLoginRoute,{user: userObj.given_name,email: userObj.email,isGoogleAccount:userObj.picture},{withCredentials:true})
+            if(data.status===false) return handleError(data.msg)
+             toast.success(data.msg,toastOptions)
+             navigate('/')
         }
     }
     const handleSubmit = async () => {
@@ -45,6 +45,7 @@ function Login() {
             const {data} = await axios.post(clientLoginRoute,{ email, password},{withCredentials:true})
             console.log(data,'is the data')
             if(data.status===false) handleError(data.msg)
+            else navigate('/')
         }
     }
     const handleError = (msg) => {

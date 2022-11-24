@@ -13,6 +13,12 @@ module.exports.clientRegister = async (req : any ,res : any,next :any)  => {
         const hashedPassword : string = await bcrypt.hash( pwd , 10 )
         const client = await Client.create({clientname: user , email, password: hashedPassword })
         delete client.password
+        const clientToken = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
+        res.cookie('clientToken',clientToken,{
+          withCredentials: true,
+          httpOnly:false,
+          maxAge:1200209
+        })
         return res.json({status : true , client , msg: 'Accont Created!'})
         }else{
             const {user , isGoogleAccount , email} : {user: string , isGoogleAccount: string , email: string} = req.body
@@ -20,12 +26,22 @@ module.exports.clientRegister = async (req : any ,res : any,next :any)  => {
             const emailCheck = await Client.findOne({email})
             if(!emailCheck) {
                 const client = await Client.create({clientname: user , email , googleAccount : isGoogleAccount })
-                res.json({status: true , client , msg: 'Logging in with your google account!'})
+                const clientToken = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
+                res.cookie('clientToken',clientToken,{
+                  withCredentials: true,
+                  httpOnly:false,
+                  maxAge:1200209
+                })
+                return res.json({status: true , client , msg: 'Logging in with your google account!'})
             }
-            else  {
                 const client = { clientname : user, email, googleAccount : isGoogleAccount }
-                res.json({status: true , client , msg: 'Logging in with your google account!'})
-            }
+                const clientToken = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
+                res.cookie('clientToken',clientToken,{
+                  withCredentials: true,
+                  httpOnly:false,
+                  maxAge:1200209
+                })
+               return res.json({status: true , client , msg: 'Logging in with your google account!'})
         }
     }catch(err){
         console.log(err,'is the error that occured in the clientRegister function in the clientControllers')
@@ -41,9 +57,15 @@ module.exports.clientAuthentication = async (req :any , res : any , next : any) 
             const client = await Client.findOne({email})
             if(!client) {
                 const client = await Client.create({clientname: user , email , googleAccount : isGoogleAccount })
-                res.json({status: true , client , msg: 'Logging in with your google account!'})
+                return res.json({status: true , client , msg: 'Logging in with your google account!'})
             }
-            else return res.json({ status: true , msg: 'Logging in with your google account!' , client })
+            const clientToken = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
+            res.cookie('clientToken',clientToken,{
+              withCredentials: true,
+              httpOnly:false,
+              maxAge:1200209
+            })
+             return res.json({ status: true , msg: 'Logging in with your google account!' , client })
         }else{
             console.log('The user is trying to login with a hardcoded account')
             const { email , password } : {email : string, password : string} = req.body
@@ -54,14 +76,12 @@ module.exports.clientAuthentication = async (req :any , res : any , next : any) 
             if (!isPasswordValid) return res.json({status: false , msg:'Password Authenticatin failed!'})
             // client.password = null // Im setting the password to null because the below code that was supposed to delete the client password is not working and I dont want the front end to get the client password!
             delete client.password 
-            console.log(client)
             const clientToken = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
             res.cookie('clientToken',clientToken,{
               withCredentials: true,
               httpOnly:false,
               maxAge:1200209
             })
-            console.log(clientToken,'is the token')
             return res.json({status: true, msg: 'Login Success!' , client , clientToken})
         }
     }catch(ex){

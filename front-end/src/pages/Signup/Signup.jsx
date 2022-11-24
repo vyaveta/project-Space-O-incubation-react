@@ -61,10 +61,13 @@ const Signup = () => {
         console.log(userObj)
        if(userObj){
         console.log(user,email,isGoogleAccount,'is the values')
-        const {data} = await axios.post(ClientRegister,{user: userObj.given_name,email: userObj.email,isGoogleAccount:userObj.picture})
+        const {data} = await axios.post(ClientRegister,{user: userObj.given_name,email: userObj.email,isGoogleAccount:userObj.picture},{withCredentials:true})
        console.log(data,'is the data from the google signin')
       
-       if(data.status)  toast.success(data.msg,toastOptions);
+       if(data.status) {
+        toast.success(data.msg,toastOptions);
+        navigate('/')
+       }
            else   handleError(data.msg)
        }
     }
@@ -118,9 +121,13 @@ const Signup = () => {
         else if(!validMatch) handleError('Passwords doesnt match!')
         else {
             const toastLoadingId = toast.loading('Registration in progress....',toastOptions)
-            const {data} = await axios.post(ClientRegister,{user,pwd,email})
+            const {data} = await axios.post(ClientRegister,{user,pwd,email},{withCredentials:true})
             console.log(data ,'is the response ') 
-            if(data.status)  toast.update(toastLoadingId, { render: data.msg , type: "success", isLoading: false  });
+            if(data.status) {
+                toast.update(toastLoadingId, { render: data.msg , type: "success", isLoading: false  });
+                console.log('gotta navigate')
+                navigate('/')
+            }
             else   toast.update(toastLoadingId, { render: data.msg, type: "error", isLoading: false  });
         }
        }catch(err){
