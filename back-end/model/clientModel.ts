@@ -15,6 +15,9 @@ const clientSchema : any = new mongoose__client.Schema({
     },
     isBanned :{
         type : Boolean , default : false
+    },
+    isBooked : {
+        type : Boolean, default : false
     }
 })
 

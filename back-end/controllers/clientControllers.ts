@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt')
 const Client = require('../model/clientModel')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 module.exports.clientRegister = async (req : any ,res : any,next :any)  => {
     try{
@@ -34,6 +36,7 @@ module.exports.clientRegister = async (req : any ,res : any,next :any)  => {
 module.exports.clientAuthentication = async (req :any , res : any , next : any) => {
     try{
         if(req.body.isGoogleAccount){
+            console.log('this is a google account')
             const { email , isGoogleAccount , user } : {email: String , isGoogleAccount: any , user : String} = req.body
             const client = await Client.findOne({email})
             if(!client) {
@@ -42,13 +45,24 @@ module.exports.clientAuthentication = async (req :any , res : any , next : any) 
             }
             else return res.json({ status: true , msg: 'Logging in with your google account!' , client })
         }else{
+            console.log('The user is trying to login with a hardcoded account')
             const { email , password } : {email : string, password : string} = req.body
-            const client = await Client.findOne({email})
+            let client = await Client.findOne({email})
             if(!client) return res.json({status: false , msg: 'No account with entered email, Try sign in with google.'})
             const isPasswordValid = await bcrypt.compare(password,client.password)
-            if (!isPasswordValid) return res.json({status: false , msg:'Password Authenticatin failed!'})
             delete client.password
-            return res.json({status: true, msg: 'Login Success!' , client})
+            if (!isPasswordValid) return res.json({status: false , msg:'Password Authenticatin failed!'})
+            // client.password = null // Im setting the password to null because the below code that was supposed to delete the client password is not working and I dont want the front end to get the client password!
+            delete client.password 
+            console.log(client)
+            const clientToken = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
+            res.cookie('clientToken',clientToken,{
+              withCredentials: true,
+              httpOnly:false,
+              maxAge:1200209
+            })
+            console.log(clientToken,'is the token')
+            return res.json({status: true, msg: 'Login Success!' , client , clientToken})
         }
     }catch(ex){
         console.log(ex,'is the error that occured in the clientAuthentication function in the clientControllers.ts')

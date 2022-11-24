@@ -40,8 +40,10 @@ function Login() {
     const handleSubmit = async () => {
         if(email.trim()==='') handleError('Enter email!')
         else if(password.trim()==='') handleError('Enter the password')
+        else if(email.includes('@')===false || email.includes('.co')===false || email.length < 5) handleError('Enter a proper Email or try sigin with google')
         else{
-            const {data} = await axios.post(clientLoginRoute,{ email, password , googleAccount})
+            const {data} = await axios.post(clientLoginRoute,{ email, password},{withCredentials:true})
+            console.log(data,'is the data')
             if(data.status===false) handleError(data.msg)
         }
     }
@@ -51,6 +53,8 @@ function Login() {
 
 
     useEffect(() => {
+       try{
+       setTimeout(() => {
         google.accounts.id.initialize({
             client_id: '880019132334-5q1n8crc19h8fn9luukc0ksc2kgvmt8j.apps.googleusercontent.com',
             callback: handleCallbackGoogle
@@ -60,6 +64,10 @@ function Login() {
                 theme: 'outlime', size: 'large' 
             }
         )
+       },1000)
+       }catch(e){
+        
+       }
     },[])
 
   return (

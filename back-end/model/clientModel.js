@@ -15,6 +15,9 @@ const clientSchema = new mongoose__client.Schema({
     },
     isBanned: {
         type: Boolean, default: false
+    },
+    isBooked: {
+        type: Boolean, default: false
     }
 });
 module.exports = mongoose__client.model('Clients', clientSchema);

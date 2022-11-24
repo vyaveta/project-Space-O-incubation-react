@@ -20,7 +20,7 @@
     width: 100vw;
     height: 10rem;
     object-fit: contain;
-    animation: clouds 60s linear infinite;
+    animation: clouds 120s linear infinite;
 }
 .clouds :nth-child(2){
     position: absolute;
@@ -28,12 +28,12 @@
     width: 100vw;
     height: 10rem;
     object-fit: contain;
-    animation: clouds2 62s linear infinite;
+    animation: clouds2 180s linear infinite;
 }
 
 @keyframes clouds{
     0% {
-        transform: translateX(-3000px);
+        transform: translateX(-6000px);
     }
     100% {
         transform: translateX(1500px);
@@ -41,7 +41,7 @@
 }
 @keyframes clouds2{
     0% {
-        transform: translateX(-3000px);
+        transform: translateX(-2000px);
     }
     100% {
         transform: translateX(1500px);

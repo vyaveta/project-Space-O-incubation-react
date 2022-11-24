@@ -2,11 +2,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const clientRoutes = require('./routes/clientRoutes.ts');
 const adminRoutes = require('./routes/adminRoute.ts');
 const app = express();
 require('dotenv').config();
-app.use(cors({ origin: true }));
+app.use(cors({
+    origin: ['http://localhost:5000'],
+    method: ['GET', 'POST', 'UPDATE', 'DELETE'],
+    credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 app.use('/client', clientRoutes);
 app.use('/admin', adminRoutes);
