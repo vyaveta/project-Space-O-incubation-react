@@ -1,0 +1,46 @@
+.client-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 10vh;
+    position: fixed;
+    top:0;
+    width: 100vw;
+    background-color: #333;
+    overflow-x: hidden;
+    gap: 1rem;
+}
+@media screen and (max-width: 850px){
+    .client-header{
+        font-size: 0.7rem;
+    }
+    .bluepill-button{
+        font-size: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .booking-button{
+        display: none;
+    }
+    .slogan{
+
+        font-size: 0.5rem;
+    }
+}
+@media screen and (max-width: 450px){
+    .company-name{
+        margin-left: 2px;
+        white-space: nowrap;
+        font-size: 0.6rem;
+    }
+    .slogan{
+        display: flex;
+        justify-content: flex-end;
+        font-size: 0.5;
+    }
+    .bluepill-button{
+        margin-right: 2px;
+    }
+}

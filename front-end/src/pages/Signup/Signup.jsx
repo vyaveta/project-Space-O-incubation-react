@@ -85,7 +85,7 @@ const Signup = () => {
                 const {data} = await axios.post(middlewareCheck,{cookie},{withCredentials: true}).catch((err) => console.log(err,'is the error form the axios side in the clientHome.jsx'))
                 if(data.status===false) {
                     removeCookie('clientToken')
-                    navigate('/login')
+                    navigate('/register')
                 }else{
                     navigate('/')
                 }

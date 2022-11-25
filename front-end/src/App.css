@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.bluepill-button{
+  background-color: rgb(81, 81, 220);
+  color: white;
+  padding: .5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0px 0px 6px 0px #fff;
+}

@@ -6,8 +6,13 @@ import {toast } from 'react-toastify'
 import './ClientHome.css'
 import { useEffect } from 'react'
 import {  middlewareCheck } from '../../utils/APIRoutes'
+import IlluPillar from '../../assets/illupillar.png'
+import ClientHeader from '../../components/ClientHeader/ClientHeader'
+import ClientIntro from '../../components/ClientIntro/ClientIntro'
+import ClientInfo from '../../components/ClientInfo/ClientInfo'
 
 const ClientHome = () => {
+    const color = 'red'
     const navigate = useNavigate()
 
     const [cookie,setCookie,removeCookie] = useCookies([])
@@ -35,9 +40,11 @@ const ClientHome = () => {
     }
 
   return (
-    <div>
-        <h1>Hello Client</h1>
-        <button className="button" onClick={handleLogout}>Logout</button>
+    <div className='client-home'>
+        <ClientHeader name='Space-O' title='We make your Space travel fantasies into reality' />
+        <ClientIntro  text='Book your Interstellar journey,' text2='View and Experience the Magic and the Beauty of the Universe' />
+        <ClientInfo text='Book your tickets now!' text2 = 'and confirm your seats in the nova cruiser space ship ' />
+        
     </div>
   )
 }
