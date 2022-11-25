@@ -4,6 +4,7 @@ const authJwt = require('jsonwebtoken')
 require('dotenv').config()
 
 module.exports.clientAuthenticationMiddlewareFunction = (req : any , res : any , next : Function) => {
+   try{
     console.log('got inside the auth middleware!')
     const clientToken = req.cookies.clientToken
     if(!clientToken)  res.json({status: false})
@@ -12,6 +13,7 @@ module.exports.clientAuthenticationMiddlewareFunction = (req : any , res : any ,
         authJwt.verify(clientToken,process.env.USER_TOKEN_SECRET, async (err : any, decodedToken : any) => {
             if(err)  {
                 console.log(err,'is the error that occured in the authJwt.verify')
+                res.json({status: false})
                 next()
             }
             else{
@@ -26,4 +28,9 @@ module.exports.clientAuthenticationMiddlewareFunction = (req : any , res : any ,
             }
         } )
     }
+   }catch(err){
+    res.json({status: false})
+    next()
+    console.log(err,'is the error that occured in the clientAuthenticationMiddlewareFunction ')
+   }
 }

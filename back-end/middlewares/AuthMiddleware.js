@@ -12,29 +12,37 @@ const client = require('../model/clientModel');
 const authJwt = require('jsonwebtoken');
 require('dotenv').config();
 module.exports.clientAuthenticationMiddlewareFunction = (req, res, next) => {
-    console.log('got inside the auth middleware!');
-    const clientToken = req.cookies.clientToken;
-    if (!clientToken)
-        res.json({ status: false });
-    else {
-        console.log('The middleware detected the presence of the cookie in the request');
-        authJwt.verify(clientToken, process.env.USER_TOKEN_SECRET, (err, decodedToken) => __awaiter(void 0, void 0, void 0, function* () {
-            if (err) {
-                console.log(err, 'is the error that occured in the authJwt.verify');
-                next();
-            }
-            else {
-                console.log('no errors until now');
-                console.log(decodedToken, 'is the decoded token');
-                const clientDetails = yield client.findById(decodedToken.client._id);
-                console.log(clientDetails, 'is the client details');
-                if ((clientDetails === null || clientDetails === void 0 ? void 0 : clientDetails.isBanned) === false)
-                    res.json({ status: true, client: clientDetails });
-                else
+    try {
+        console.log('got inside the auth middleware!');
+        const clientToken = req.cookies.clientToken;
+        if (!clientToken)
+            res.json({ status: false });
+        else {
+            console.log('The middleware detected the presence of the cookie in the request');
+            authJwt.verify(clientToken, process.env.USER_TOKEN_SECRET, (err, decodedToken) => __awaiter(void 0, void 0, void 0, function* () {
+                if (err) {
+                    console.log(err, 'is the error that occured in the authJwt.verify');
                     res.json({ status: false });
-                console.log('the middleware function completed!');
-                next();
-            }
-        }));
+                    next();
+                }
+                else {
+                    console.log('no errors until now');
+                    console.log(decodedToken, 'is the decoded token');
+                    const clientDetails = yield client.findById(decodedToken.client._id);
+                    console.log(clientDetails, 'is the client details');
+                    if ((clientDetails === null || clientDetails === void 0 ? void 0 : clientDetails.isBanned) === false)
+                        res.json({ status: true, client: clientDetails });
+                    else
+                        res.json({ status: false });
+                    console.log('the middleware function completed!');
+                    next();
+                }
+            }));
+        }
+    }
+    catch (err) {
+        res.json({ status: false });
+        next();
+        console.log(err, 'is the error that occured in the clientAuthenticationMiddlewareFunction ');
     }
 };

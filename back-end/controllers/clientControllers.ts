@@ -57,6 +57,12 @@ module.exports.clientAuthentication = async (req :any , res : any , next : any) 
             const client = await Client.findOne({email})
             if(!client) {
                 const client = await Client.create({clientname: user , email , googleAccount : isGoogleAccount })
+                const clientTokenForGoogleAvvount = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
+                res.cookie('clientToken',clientTokenForGoogleAvvount,{
+                    withCredentials: true,
+                    httpOnly:false,
+                    maxAge:1200209
+                  })
                 return res.json({status: true , client , msg: 'Logging in with your google account!'})
             }
             const clientToken = jwt.sign({client},process.env.USER_TOKEN_SECRET,{expiresIn:'365d'})
