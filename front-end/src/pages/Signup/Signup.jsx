@@ -4,6 +4,7 @@ import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRef } from 'react';
 import { useState } from 'react';
+import { useCookies } from 'react-cookie'
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
@@ -11,6 +12,8 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import { ClientRegister } from '../../utils/APIRoutes';
 import  cloud  from '../../assets/cloud.png'
+import {  middlewareCheck } from '../../utils/APIRoutes'
+
 
 const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[0-9])(?=.*[!@#$%^&()/.,_*])[a-zA-Z0-9!@#$%^&()/.,_*]{6,16}$/;
@@ -18,6 +21,7 @@ const EMAIL_REGEX =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\
 
 const Signup = () => {
 
+    const [cookie,setCookie,removeCookie] = useCookies([])
     const navigate = useNavigate()
 
     const userRef = useRef()
@@ -74,6 +78,22 @@ const Signup = () => {
 
     // Now some useEffects
 
+
+    useEffect(() => {
+        const cookieCheck = async() => {
+            if(cookie) {
+                const {data} = await axios.post(middlewareCheck,{cookie},{withCredentials: true}).catch((err) => console.log(err,'is the error form the axios side in the clientHome.jsx'))
+                if(data.status===false) {
+                    removeCookie('clientToken')
+                    navigate('/login')
+                }else{
+                    navigate('/')
+                }
+            }
+        }
+        cookieCheck()
+    },[])
+
     useEffect(() => {
           userRef.current.focus()
     },[])
@@ -100,6 +120,7 @@ const Signup = () => {
     },[user,pwd,matchPwd])
 
     useEffect(() => {
+       try{
         google.accounts.id.initialize({
             client_id: '880019132334-5q1n8crc19h8fn9luukc0ksc2kgvmt8j.apps.googleusercontent.com',
             callback: handleCallbackGoogle
@@ -109,6 +130,9 @@ const Signup = () => {
                 theme: 'outlime', size: 'large' 
             }
         )
+       }catch(err){
+        
+       }
     },[])
 
    

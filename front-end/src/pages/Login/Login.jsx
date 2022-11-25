@@ -3,13 +3,16 @@ import './Login.css'
 import { useNavigate } from "react-router-dom";
 import { useRef } from 'react';
 import {toast } from 'react-toastify'
+import { useCookies } from 'react-cookie'
 import axios from 'axios';
-import { clientLoginRoute } from '../../utils/APIRoutes';
+import { clientLoginRoute, middlewareCheck } from '../../utils/APIRoutes';
 import jwt_decode from 'jwt-decode'
 import  cloud  from '../../assets/cloud.png'
 
 function Login() {
     const navigate = useNavigate()
+
+    const [cookie,setCookie,removeCookie] = useCookies([])
 
     const emailRef = useRef()
 
@@ -51,6 +54,21 @@ function Login() {
     const handleError = (msg) => {
         toast.error(msg,toastOptions)
     }
+
+    useEffect(() => {
+        const cookieCheck = async() => {
+            if(cookie) {
+                const {data} = await axios.post(middlewareCheck,{cookie},{withCredentials: true}).catch((err) => console.log(err,'is the error form the axios side in the clientHome.jsx'))
+                if(data.status===false) {
+                    removeCookie('clientToken')
+                    navigate('/login')
+                }else{
+                    navigate('/')
+                }
+            }
+        }
+        cookieCheck()
+    },[])
 
 
     useEffect(() => {
