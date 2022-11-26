@@ -1,23 +1,24 @@
 import './ClientBookingForm.css'
 import React from 'react'
 import { useEffect } from 'react'
-import { useState , useMemo } from 'react'
+import { useState  } from 'react'
 import { toast } from 'react-toastify'
-import countryList from 'react-select-country-list'
+import { useCookies } from 'react-cookie'
 import Select from 'react-select'
+import axios from 'axios'
+import { clientSeatBookingRoute } from '../../utils/APIRoutes'
 
 
 const ClientBookingForm = ({countries}) => {
     const USER_REGEX = /^[a-zA-z][a-zA-Z]{3,23}$/;
     const EMAIL_REGEX =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     const CONTACT_NUMBER_REGEX = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-    const arr = [2,3,4,3,2,4,3,2,33,2,3,2,2]
-    
 
-    const [value, setValue] = useState('')
+    const [cookie,setCookie,removeCookie] = useCookies([])
+    
     const [firstName,setFirstName] = useState('')
     const [lastName,setLastName] = useState('')
-    const [country,setCountry] = useState('')
+    const [country,setCountry] = useState(false)
     const [state,setState] = useState('')
     const [contactNumber,setContactNumber] = useState('')
     const [email,setEmail] = useState('')
@@ -25,7 +26,8 @@ const ClientBookingForm = ({countries}) => {
     const [agree,setAgree] = useState(false)
 
     const changeHandler = value => {
-        setValue(value)
+        setCountry(value)
+        console.log(cookie)
       }
     
 
@@ -34,18 +36,22 @@ const ClientBookingForm = ({countries}) => {
     }
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if(firstName.trim() === ''|| !USER_REGEX.test(firstName)) handleError('Enter a proper first name')
         else if(lastName.trim() === '' || !USER_REGEX.test(lastName)) handleError("Enter a proper Last name!")
         else if(contactNumber.trim() ==='' || !CONTACT_NUMBER_REGEX.test(contactNumber)) handleError("Enter a proper Contact number")
         else if(email.trim() === '' || !EMAIL_REGEX.test(email) ) handleError('Enter a proper Email!')
+        else if(country == '' || country === false) handleError('Select a country')
+        else if(state.trim() ==='' || !USER_REGEX.test(state)) handleError('Enter your state.')
+        else if(reason.trim() === '') handleError('Enter a reason')
+        else if(agree===false) handleError('Seems like you have not agreed to the consent letter.')
+        else{
+            const {data} = await axios.post(clientSeatBookingRoute,{firstName,lastName,contactNumber,email,country,state,reason,cookie},{withCredentials: true}
+                ).catch((err) => {
+                console.log(err,'is the error that occured in the axios post req for seat booking')
+            })
+        }
     }
-
-    useEffect(() => {
-     countries.map((jj,index) => {
-        console.log(jj.label)
-     })
-    },[])
 
   return (
     <div className='booking-form-client'>
@@ -54,7 +60,7 @@ const ClientBookingForm = ({countries}) => {
             <input type="text" placeholder='Last name' value={lastName} onChange={(e) => setLastName(e.target.value)} />
         </div>
         <div className="booking-form-client__input-div">
-            <Select options={countries} value={value} className='booking-from__select' onChange={changeHandler} />
+            <Select options={countries} value={country} className='booking-from__select' onChange={changeHandler} />
             <input type="text" placeholder='State' value={state} onChange={(e)=> setState(e.target.value)} />
         </div>
         <div className="booking-form-client__input-div">
@@ -64,7 +70,7 @@ const ClientBookingForm = ({countries}) => {
             <input type="text" placeholder='Enter your mail id' value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="booking-form-client__input-div">
-            <textarea name="" id="" cols="30" rows="10" placeholder='Tell us why do you want to Explore the Space' 
+            <textarea name="" id="" cols="30" rows="10" placeholder='Tell us why do you want to Explore the Space (note: if your reason is not strong or genuine, We wont accept your request!)' 
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             ></textarea>
@@ -73,7 +79,7 @@ const ClientBookingForm = ({countries}) => {
             <div className="policies">
             <h1>Policies and Consent letter</h1>
             <p>
-                We, Space-O team is providing a free trip around our solar system for those who register for this from,
+                We, Space-O team is providing a free trip around our solar system for those who register for this form,
                 So we hereby declare that We can provide a free trip for you that includes the travel cost ,airship cost,
                 food and accomodation.
                 <br />

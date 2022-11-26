@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const Client = require('../model/clientModel')
+const Application = require('../model/applicationModel')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -94,4 +95,33 @@ module.exports.clientAuthentication = async (req :any , res : any , next : any) 
         console.log(ex,'is the error that occured in the clientAuthentication function in the clientControllers.ts')
         return res.json({status: false, msg: 'Something went wrong in the backend!'})
     }
+}
+
+module.exports.clientSeatBooking = (req: any, res: any , next: any) => {
+  try{
+    const {firstName, lastName , contactNumber , email , country , state , reason} :
+    {firstName: string , lastName: string , contactNumber: string , email: string , country: object , state:string , reason: string } = req.body
+    const clientToken = req.cookies.clientToken
+    jwt.verify(clientToken,process.env.USER_TOKEN_SECRET,async (err: Error , decodedToken : any ) => {
+      if(err){
+        console.log(err,'is the error that occured in the clientSeatBooking function in the clientController')
+        res.json({status: false,msg: 'something while authenticating, Try relogin'})
+      }else{
+        const clientDetails = await Client.findById(decodedToken.client._id)
+        console.log(clientDetails,'is the client details')
+        if(clientDetails?.isBanned === false) {
+          const application : any = await Application.create({
+            firstName,lastName,contactNumber,email,country,state,reason,clientname: clientDetails.clientname,clientEmail: clientDetails.email
+          })
+          console.log(application,'is the created application')
+          return res.json({status: true,msg: 'Application successfully sent to the Space-O admins!'})
+        }else{
+          return res.json({status: false,msg: 'You are blocked by the  space-O admins'})
+        }
+      }
+    })
+  }catch(er){
+    return res.json({status: false,msg:'Something went wrong'})
+    console.log(er,'is the error that occured in the clientSeatBooking function in the clientControllers')
+  }
 }

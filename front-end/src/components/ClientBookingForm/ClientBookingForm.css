@@ -68,4 +68,8 @@
 }
 .booking-from__select{
   width: 100%;
+  margin-bottom: 1rem;
+}
+.booking-form-client__input-div textarea{
+  height: 7rem !important;
 }

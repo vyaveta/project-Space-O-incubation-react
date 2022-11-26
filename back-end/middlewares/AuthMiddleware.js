@@ -15,6 +15,7 @@ module.exports.clientAuthenticationMiddlewareFunction = (req, res, next) => {
     try {
         console.log('got inside the auth middleware!');
         const clientToken = req.cookies.clientToken;
+        console.log(req.cookies);
         if (!clientToken)
             res.json({ status: false });
         else {
