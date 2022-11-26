@@ -9,7 +9,7 @@ import axios from 'axios'
 import { clientSeatBookingRoute } from '../../utils/APIRoutes'
 
 
-const ClientBookingForm = ({countries}) => {
+const ClientBookingForm = ({countries , setAppear , setAllowBooking}) => {
     const USER_REGEX = /^[a-zA-z][a-zA-Z]{3,23}$/;
     const EMAIL_REGEX =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     const CONTACT_NUMBER_REGEX = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
@@ -24,6 +24,17 @@ const ClientBookingForm = ({countries}) => {
     const [email,setEmail] = useState('')
     const [reason,setReason] = useState('')
     const [agree,setAgree] = useState(false)
+
+    const toastOptions =  {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+    }
 
     const changeHandler = value => {
         setCountry(value)
@@ -49,7 +60,14 @@ const ClientBookingForm = ({countries}) => {
             const {data} = await axios.post(clientSeatBookingRoute,{firstName,lastName,contactNumber,email,country,state,reason,cookie},{withCredentials: true}
                 ).catch((err) => {
                 console.log(err,'is the error that occured in the axios post req for seat booking')
-            })
+            }).finally(() => {
+                setAppear(false)
+            }) 
+            if(data.status) {
+                toast.success('Your application was sent successfully!',toastOptions)
+                setAllowBooking(false)
+            }
+            else handleError(data.msg)
         }
     }
 

@@ -47,6 +47,13 @@
     filter: blur(4px);
     transform: rotate(90deg);
 }
+.notice-text{
+    color: royalblue;
+    background-color: white;
+    text-decoration: underline;
+    text-align: center;
+    font-size: 1.3rem;
+}
 
 @keyframes rocket {
     0%{
@@ -65,12 +72,16 @@
 
 @media screen and (max-width: 650px){
    .scene{
-    flex-direction:  column-reverse;
+    flex-direction:  column;
+    justify-content: flex-start;
    }
 }
 @media screen and (max-width: 580px){
     .scene{
         height: 80vh;
+    }
+    .notice-text{
+        font-size: 0.7rem;
     }
 }
 @media screen and (max-width: 500px){

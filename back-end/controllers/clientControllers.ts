@@ -113,6 +113,8 @@ module.exports.clientSeatBooking = (req: any, res: any , next: any) => {
           const application : any = await Application.create({
             firstName,lastName,contactNumber,email,country,state,reason,clientname: clientDetails.clientname,clientEmail: clientDetails.email
           })
+          clientDetails.isBooked=true;
+          clientDetails.save()
           console.log(application,'is the created application')
           return res.json({status: true,msg: 'Application successfully sent to the Space-O admins!'})
         }else{

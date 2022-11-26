@@ -6,7 +6,7 @@ import countryList from 'react-select-country-list'
 import React,{useState , useMemo} from 'react'
 import ClientBookingForm from '../../components/ClientBookingForm/ClientBookingForm';
 
-const ClientBooking = ({value,setAppear}) => {
+const ClientBooking = ({value,setAppear , setAllowBooking}) => {
     const [show, setShow] = useState(value);
     const options = useMemo(() => countryList().getData(), [])
     console.log(options[0].label)
@@ -24,7 +24,7 @@ const ClientBooking = ({value,setAppear}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-         <ClientBookingForm countries = {options} />
+         <ClientBookingForm countries = {options} setAppear = {setAppear} setAllowBooking={setAllowBooking} />
         </Modal.Body>
       </Modal>
     </div>
