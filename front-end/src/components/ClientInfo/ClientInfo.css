@@ -13,21 +13,20 @@
     background-color: transparent;
     position: relative;
     animation:  rocket .2s ease infinite;
-    
 }
 .rocket img{
     right: -10rem;
     bottom: -9rem;
-    position: absolute;
+    /* position: absolute; */
     transform: rotate(90deg);
     z-index: 9;
 }
 .rocket::before{
     content: '';
     position: absolute;
-    bottom: -90px;
-    right: 0;
-    transform: translateY(-40%);
+    bottom: 7px;
+    right: 200px;
+    transform: translateX(-40%);
     width: 10px;
     height: 150px;
     border-radius: 50% 50% 50% 50%;
@@ -38,9 +37,9 @@
 .rocket::after{
     content: '';
     position: absolute;
-    bottom: -137px;
-    right: 0;
-    transform: translateY(-40%);
+    bottom: 53px;
+    right: 200px;
+    z-index: -1;
     width: 10px;
     height: 150px;
     border-radius: 50% 50% 50% 50%;
@@ -62,4 +61,63 @@
 
 .info{
     width: 40vw;
+}
+
+@media screen and (max-width: 650px){
+   .scene{
+    flex-direction:  column-reverse;
+   }
+}
+@media screen and (max-width: 580px){
+    .scene{
+        height: 80vh;
+    }
+}
+@media screen and (max-width: 500px){
+    .scene{
+        height: 70vh;
+    }
+    .info h3{
+        font-size: 0.7rem;
+    }
+    .rocket img{
+        width: 60px;
+    }
+    .rocket::before{
+        content: '';
+        position: absolute;
+        bottom: 3px;
+        right: 100px;
+        transform: translateX(-40%);
+        width: 6px;
+        height: 100px;
+        border-radius: 50% 50% 50% 50%;
+        background: linear-gradient(yellow,red);
+        filter: blur(4px);
+        transform: rotate(90deg);
+    }
+    .rocket::after{
+        content: '';
+        position: absolute;
+        bottom: 30px;
+        right: 100px;
+        z-index: -1;
+        width: 6px;
+        height: 100px;
+        border-radius: 50% 50% 50% 50%;
+        background: linear-gradient(yellow,red);
+        filter: blur(4px);
+        transform: rotate(90deg);
+    }
+}
+@media screen and (max-width: 450px){
+    .scene{
+        height: 60vh;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .scene{
+        height: 50vh;
+    }
 }

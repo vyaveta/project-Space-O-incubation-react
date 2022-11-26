@@ -17,8 +17,44 @@
 }
 
 @media screen and (max-width: 850px){
+    .intro{
+        height: 80vh;
+    }
     .intro__box{
-        background-color: red;
         font-size: 1rem;
+    }
+}
+@media screen and (max-width: 700px){
+    .intro{
+        height: 70vh;
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 630px){
+    .intro{
+        height: 60vh;
+    }
+}
+@media screen and (max-width: 530px){
+    .intro{
+        height: 50vh;
+        align-items: center;
+        justify-content: center;
+    }
+    .intro__box{
+        font-size: 0.7rem;
+    }
+}
+@media screen and (max-width: 450px){
+    .intro{
+        height: 40vh;
+    }
+}
+@media screen and (max-width: 350px){
+    .intro{
+        height: 35vh;
+    }
+    .intro__box{
+        font-size: 0.5rem;
     }
 }

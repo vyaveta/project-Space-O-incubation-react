@@ -5,7 +5,7 @@ import Stars from '../../assets/stars.gif'
 import Earth from '../../assets/spaceTravel.gif'
 
 
-const ClientInfo = ({text,text2}) => {
+const ClientInfo = ({text , text2 , setAppear }) => {
   return (
     <div className="scene" style={{
       'backgroundImage':`url(${Earth})`,
@@ -19,6 +19,9 @@ const ClientInfo = ({text,text2}) => {
       <div className="info">
         <h3> {text}<br />
          {text2} </h3>
+         <div className="button">
+          <button className="bluepill-button" onClick={() => setAppear(true)}>Book Now!</button>
+         </div>
       </div>
     </div>
   )
