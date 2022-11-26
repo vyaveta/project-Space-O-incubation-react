@@ -2,20 +2,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './ClientBooking.css'
-
-import React,{useState} from 'react'
+import countryList from 'react-select-country-list'
+import React,{useState , useMemo} from 'react'
 import ClientBookingForm from '../../components/ClientBookingForm/ClientBookingForm';
 
 const ClientBooking = ({value,setAppear}) => {
     const [show, setShow] = useState(value);
+    const options = useMemo(() => countryList().getData(), [])
+    console.log(options[0].label)
   return (
-    <>
-      <Modal
+    <div className='client-booking-modal'>
+          <Modal
         show={value}
         onHide={() => setAppear(false)}
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title"
-        className='client-booking-modal'
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
@@ -23,10 +24,12 @@ const ClientBooking = ({value,setAppear}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-         <ClientBookingForm />
+         <ClientBookingForm countries = {options} />
         </Modal.Body>
       </Modal>
-    </>
+    </div>
+    
+    
   )
 }
 
