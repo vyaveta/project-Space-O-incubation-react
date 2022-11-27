@@ -3,7 +3,7 @@ import './AdminLogin.css'
 import Earth from '../../assets/earth.png'
 import Mars from '../../assets/mars.png'
 import Saturn from '../../assets/saturn.png'
-import Sun from '../../assets/sun.png'
+import Sun from '../../assets/thesunr.gif'
 
 const AdminLogin = () => {
   const imageWidth = '60px'
