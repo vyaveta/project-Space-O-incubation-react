@@ -1,0 +1,142 @@
+.admin-login {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: url(https://png.pngtree.com/thumb_back/fw800/background/20210305/pngtree-tranquil-universe-background-image_575534.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.planets-container {
+    width: 150px;
+    height: 200px;
+    border-radius: 50%;
+    transform: scaleX(5);
+    /* every thing within the planets-container with have this transform property so we have to implicitly change the attribute */
+}
+
+.planet {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    transform: scaleX(0.2);
+    animation: rotate 12s infinite linear;
+    position: absolute;
+}
+.planet img{
+    height: 50px;
+    width: 10px;
+}
+#first-planet img{
+    width: 7px;
+    height: 35px;
+}
+.saturn{
+    height: 200px !important;
+    width: 50px !important;
+}
+#first-planet{
+    top: 2vh;
+    left: 8vw;
+}
+#second-planet{
+    left: 8vw;
+}
+#third-planet{
+    left:8vw;
+}
+.sun{
+    width: 100px;
+    height: 150px;
+    position: relative;
+    border-radius: 50%;
+}
+
+.sun img{
+    height: 300px;
+    position: absolute;
+    right: -100px;
+    border-radius: 50%;
+    box-shadow: 0 0 60px  orangered, 0 0 98px yellow;
+    transform: scaleX(0.2) !important;
+    animation: showandhide 12s infinite;
+    
+}
+@keyframes rotate{
+    0%{
+        transform: rotateZ(0deg)
+    }
+    100%{
+        transform: rotateZ(360deg)
+    }
+}
+@keyframes correct{
+    0%{
+        transform: rotateZ(360deg)
+    }
+    100%{
+        transform: rotateZ(0deg) 
+    }
+}
+@keyframes showandhide {
+    0%{
+        z-index: 99 !important;
+    }
+    35%{
+        z-index: 88;
+        /* background-color:   #D98324; */
+    }
+    90%{
+        z-index: -2 !important;
+    }
+}
+.route{
+    animation: correct 12s infinite linear;
+}
+
+
+/* Now some code for the responsivenes */
+
+@media screen and (max-width: 1360px){
+    .sun img{
+        height: 250px;
+        right: -80px;
+    }
+    .saturn{
+        height: 150px !important;
+        width: 30px !important;
+    }
+    .planet img{
+        height: 30px;
+        width: 7px;
+    }
+    #first-planet img{
+        width: 4px;
+        height: 20px;
+    }
+}
+
+@media screen and (max-width: 980px){
+    .sun img{
+        height: 200px;
+        right: -60px;
+    }
+    .saturn{
+        height: 100px !important;
+        width: 20px !important;
+    }
+    .planet img{
+        height: 20px;
+        width: 4px;
+    }
+    #first-planet img{
+        width: 2px;
+        height: 10px;
+    }
+}
