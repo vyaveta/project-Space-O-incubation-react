@@ -8,3 +8,4 @@ export const clientLoginRoute = `${BACKEND_PORT}/client/login`
 export const clientSeatBookingRoute = `${BACKEND_PORT}/client/booking`
 
 export const adminLoginRoute = `${BACKEND_PORT}/admin/login`
+export const adminRegisterRoute = `${BACKEND_PORT}/admin/register`

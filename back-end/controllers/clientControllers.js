@@ -17,7 +17,6 @@ module.exports.clientRegister = (req, res, next) => __awaiter(void 0, void 0, vo
     try {
         if (req.body.pwd) {
             const { user, pwd, email } = req.body;
-            console.log(user, pwd, email);
             const emailCheck = yield Client.findOne({ email });
             if (emailCheck)
                 return res.json({ msg: 'Account already exists', staus: false });

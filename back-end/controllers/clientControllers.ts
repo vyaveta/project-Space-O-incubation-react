@@ -8,7 +8,6 @@ module.exports.clientRegister = async (req : any ,res : any,next :any)  => {
     try{
         if(req.body.pwd){
             const { user , pwd  , email  } : { user : string, pwd : string , email : string } = req.body 
-        console.log(user , pwd , email)
         const emailCheck = await Client.findOne({email})
         if (emailCheck) return res.json({msg: 'Account already exists' , staus : false } )
         const hashedPassword : string = await bcrypt.hash( pwd , 10 )

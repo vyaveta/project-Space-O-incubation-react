@@ -1,3 +1,10 @@
+.login-wrapper-admin {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+}
+
 .admin-login {
     margin: 0;
     padding: 0;
@@ -29,113 +36,183 @@
     animation: rotate 12s infinite linear;
     position: absolute;
 }
-.planet img{
+
+.planet img {
     height: 50px;
     width: 10px;
 }
-#first-planet img{
+
+#first-planet img {
     width: 7px;
     height: 35px;
 }
-.saturn{
+
+.saturn {
     height: 200px !important;
     width: 50px !important;
 }
-#first-planet{
+
+#first-planet {
     top: 2vh;
     left: 8vw;
 }
-#second-planet{
+
+#second-planet {
     left: 8vw;
 }
-#third-planet{
-    left:8vw;
+
+#third-planet {
+    left: 8vw;
 }
-.sun{
+
+.sun {
     width: 100px;
     height: 150px;
     position: relative;
     border-radius: 50%;
 }
 
-.sun img{
+.sun img {
     height: 300px;
     position: absolute;
     right: -100px;
     border-radius: 50%;
-    box-shadow: 0 0 60px  orangered, 0 0 98px yellow;
+    box-shadow: 0 0 60px orangered, 0 0 98px yellow;
     transform: scaleX(0.2) !important;
     animation: showandhide 12s infinite;
-    
+
 }
-@keyframes rotate{
-    0%{
+.login-div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 70vh;
+    width: 40vw;
+    min-width: 400px;
+    background-color: rgba(255,255,255,0.15);
+    box-shadow: 0 8px 32px 0 rgba(255,255,255,0.37);
+    backdrop-filter: blur(8.5px);
+    z-index: 99;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    gap: 1rem;
+}
+.admin-login__input{
+    width: 60%;
+}
+.admin-login__input input{
+    width: 100%;
+    background: transparent;
+    border: none;
+    /* border-bottom: 2px solid #333; */
+    outline: none;
+    text-align: center;
+    color: whitesmoke;
+}
+.admin-login__button-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.neo-button{
+    padding: 0.3rem 2.5rem;
+    border-radius: 10px;
+    background: transparent;
+    color: whitesmoke;
+    border: none;
+}
+.textmsg p{
+    font-size: 13px;
+    cursor: pointer;
+}
+@keyframes rotate {
+    0% {
         transform: rotateZ(0deg)
     }
-    100%{
+
+    100% {
         transform: rotateZ(360deg)
     }
 }
-@keyframes correct{
-    0%{
+
+@keyframes correct {
+    0% {
         transform: rotateZ(360deg)
     }
-    100%{
-        transform: rotateZ(0deg) 
+
+    100% {
+        transform: rotateZ(0deg)
     }
 }
+
 @keyframes showandhide {
-    0%{
+    0% {
         z-index: 99 !important;
     }
-    35%{
+
+    45% {
         z-index: 88;
         /* background-color:   #D98324; */
     }
-    90%{
+
+    90% {
         z-index: -2 !important;
     }
 }
-.route{
+
+.route {
     animation: correct 12s infinite linear;
 }
 
 
 /* Now some code for the responsivenes */
 
-@media screen and (max-width: 1360px){
-    .sun img{
+@media screen and (max-width: 1360px) {
+    .sun img {
         height: 250px;
         right: -80px;
     }
-    .saturn{
+
+    .saturn {
         height: 150px !important;
         width: 30px !important;
     }
-    .planet img{
+
+    .planet img {
         height: 30px;
         width: 7px;
     }
-    #first-planet img{
+
+    #first-planet img {
         width: 4px;
         height: 20px;
     }
 }
 
-@media screen and (max-width: 980px){
-    .sun img{
+@media screen and (max-width: 980px) {
+    .sun img {
         height: 200px;
         right: -60px;
     }
-    .saturn{
+
+    .saturn {
         height: 100px !important;
         width: 20px !important;
     }
-    .planet img{
+
+    .planet img {
         height: 20px;
         width: 4px;
     }
-    #first-planet img{
+
+    #first-planet img {
         width: 2px;
         height: 10px;
     }

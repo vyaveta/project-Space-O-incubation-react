@@ -85,7 +85,7 @@ function Login() {
         )
        },1000)
        }catch(e){
-        
+        console.log('error on the google sigin function',e)
        }
     },[])
 
