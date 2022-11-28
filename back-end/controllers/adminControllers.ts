@@ -1,4 +1,5 @@
 const Admin = require('../model/adminModel')
+const Clients = require('../model/clientModel')
 const admin_jwt : any = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -44,5 +45,15 @@ module.exports.adminAuthentication = async (req: any , res: any ) => {
     }catch(err){
         console.log(err,'is the error that occured in the adminAuthentication function in the adminControllers')
         return res.json({status: false,msg:'Something went wrong!'})
+    }
+}
+
+module.exports.getAllUsers = async (req:any , res: any) => {
+    try{
+        const clients = await Clients.find({})
+       return res.json({status: true, clients})
+    }catch(err){
+        console.log(err,'is the error that occured in the getAllUsers function in the adminControllers')
+       return res.json({status: false,msg:'Something went wrong'})
     }
 }

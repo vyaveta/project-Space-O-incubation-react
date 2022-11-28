@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
 import AdminHeader from '../../components/AdminHeader/AdminHeader'
 import AdminIntro from '../../components/AdminIntro/AdminIntro'
+import axios from 'axios'
+import { getAllUsersRoute } from '../../utils/APIRoutes'
 
 
 const AdminHome = () => {
@@ -14,6 +16,13 @@ const AdminHome = () => {
     if(!cookie.adminToken){
       navigate('/admin/auth')
     }
+  },[])
+  useEffect(() => {
+       const getAllUsers = async () => {
+        const {data} = await axios.get(getAllUsersRoute)
+        console.log(data,'is the data')
+       } 
+       getAllUsers()
   },[])
   return (
     <div>

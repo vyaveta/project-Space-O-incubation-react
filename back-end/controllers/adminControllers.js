@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const Admin = require('../model/adminModel');
+const Clients = require('../model/clientModel');
 const admin_jwt = require('jsonwebtoken');
 require('dotenv').config();
 module.exports.adminRegister = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,5 +58,15 @@ module.exports.adminAuthentication = (req, res) => __awaiter(void 0, void 0, voi
     catch (err) {
         console.log(err, 'is the error that occured in the adminAuthentication function in the adminControllers');
         return res.json({ status: false, msg: 'Something went wrong!' });
+    }
+});
+module.exports.getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const clients = yield Clients.find({});
+        return res.json({ status: true, clients });
+    }
+    catch (err) {
+        console.log(err, 'is the error that occured in the getAllUsers function in the adminControllers');
+        return res.json({ status: false, msg: 'Something went wrong' });
     }
 });

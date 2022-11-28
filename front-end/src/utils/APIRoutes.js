@@ -9,3 +9,4 @@ export const clientSeatBookingRoute = `${BACKEND_PORT}/client/booking`
 
 export const adminLoginRoute = `${BACKEND_PORT}/admin/login`
 export const adminRegisterRoute = `${BACKEND_PORT}/admin/register`
+export const getAllUsersRoute = `${BACKEND_PORT}/admin/getAllUsers`

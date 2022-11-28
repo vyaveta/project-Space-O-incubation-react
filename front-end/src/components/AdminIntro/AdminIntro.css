@@ -30,6 +30,7 @@
     align-items: center;
     border-radius: 1rem;
     cursor: pointer;
+    padding: 0.5rem;
 }
 .selected{
     background-color: aliceblue;
