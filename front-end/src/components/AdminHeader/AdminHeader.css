@@ -1,0 +1,15 @@
+.admin-header{
+    display: flex;
+    justify-content: space-between;
+    padding: 2%;
+    align-items: center;
+    height: 10vh;
+    background-color: black;
+}
+.admin-header__box{
+    color: #fff;
+    cursor: pointer;
+}
+.admin-icon{
+    font-size: 2rem;
+}
