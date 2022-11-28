@@ -5,12 +5,21 @@ import Mars from '../../assets/mars.png'
 import Saturn from '../../assets/saturn.png'
 import Sun from '../../assets/thesunr.gif'
 import { useState } from 'react'
+import { useCookies } from 'react-cookie'
 
 import AdminLoginBox from './AdminLoginBox'
 import AdminSignupBox from './AdminSignupBox'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
+  const navigate = useNavigate()
+  const [cookie,setCookie,removeCookie] = useCookies([])
   const [loginMode,setLoginMode] = useState(true)
+  useEffect(() => {
+    if(cookie.adminToken) navigate('/admin')
+    console.log(cookie,'is the cookie') 
+  },[cookie])
   return (
      <div className="login-wrapper-admin">
       <div className="admin-login">

@@ -24,9 +24,16 @@ module.exports.adminRegister = async (req: any , res: any , next: Function) => {
 module.exports.adminAuthentication = async (req: any , res: any ) => {
     try{
         const {adminName, adminAuthCode} : {adminName: string , adminAuthCode: string} = req.body
-        const admin = await Admin.findOne({adminName,adminAuthCode})
-        if(!admin) return res.json({status: false,msg: 'No account with that credentials'})
+        const admin = await Admin.findOne({adminName})
+        if(!admin) return res.json({status: false,msg: 'No account with that adminName'})
         if(admin.incorrectAuthCount>3) return res.json({status: false, msg:'This account is in Quarantine list'})
+        if(admin.adminAuthCode!== adminAuthCode) {
+            admin.incorrectAuthCount++
+            await admin.save()
+            return res.json({status: false, msg: `you have entered incorrect authCode ${admin.incorrectAuthCount} times. Only 4 chanse is available!`})
+        }
+        admin.incorrectAuthCount=0
+        admin.save()
         const adminToken = await admin_jwt.sign({admin},process.env.ADMIN_TOKEN_TOP_SECRET,{expiresIn: '365d'})
         res.cookie('adminToken',adminToken,{
             withCredentials: true,

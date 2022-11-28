@@ -34,11 +34,18 @@ module.exports.adminRegister = (req, res, next) => __awaiter(void 0, void 0, voi
 module.exports.adminAuthentication = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { adminName, adminAuthCode } = req.body;
-        const admin = yield Admin.findOne({ adminName, adminAuthCode });
+        const admin = yield Admin.findOne({ adminName });
         if (!admin)
-            return res.json({ status: false, msg: 'No account with that credentials' });
+            return res.json({ status: false, msg: 'No account with that adminName' });
         if (admin.incorrectAuthCount > 3)
             return res.json({ status: false, msg: 'This account is in Quarantine list' });
+        if (admin.adminAuthCode !== adminAuthCode) {
+            admin.incorrectAuthCount++;
+            yield admin.save();
+            return res.json({ status: false, msg: `you have entered incorrect authCode ${admin.incorrectAuthCount} times. Only 4 chanse is available!` });
+        }
+        admin.incorrectAuthCount = 0;
+        admin.save();
         const adminToken = yield admin_jwt.sign({ admin }, process.env.ADMIN_TOKEN_TOP_SECRET, { expiresIn: '365d' });
         res.cookie('adminToken', adminToken, {
             withCredentials: true,
