@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 const AdminLogin = () => {
   const navigate = useNavigate()
   const [cookie,setCookie,removeCookie] = useCookies([])
+  const [boxMode,setBoxMode] = useState(false)
   const [loginMode,setLoginMode] = useState(true)
   useEffect(() => {
     if(cookie.adminToken) navigate('/admin')
@@ -29,12 +30,18 @@ const AdminLogin = () => {
         </div>
       <div className="route"><div className="planet" id='first-planet'> <img src={Mars} alt=""  /> </div></div>
       <div className="route"> <div className="planet" id='second-planet'> <img src={Earth} alt="" /> </div></div>
-      <div className="route"> <div className="planet" id='third-planet'> <img  className='saturn' src={Saturn} alt=""  /> </div></div>
+      <div className="route"> <div className="planet" id='third-planet'> <img  className='saturn' src={Saturn} alt="" 
+      onClick={()=> setBoxMode(!boxMode)}
+      /> </div></div>
     </div>
    
     </div>
     {
-      loginMode ? <AdminLoginBox setLoginMode={setLoginMode} /> : <AdminSignupBox  setLoginMode = {setLoginMode}/>
+      boxMode && <div className="">
+      {
+        loginMode ? <AdminLoginBox setLoginMode={setLoginMode} /> : <AdminSignupBox  setLoginMode = {setLoginMode}/>
+      }
+      </div>
     }
     </div>
   )

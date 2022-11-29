@@ -40,7 +40,6 @@ const ClientHome = () => {
         removeCookie('clientToken')
         navigate('/login')
     }
-
   return (
     <div className='client-home'>
         <ClientHeader name='Space-O' title='We make your Space travel fantasies into reality' setAppear = {setAppear} allowBooking={allowBooking} />
