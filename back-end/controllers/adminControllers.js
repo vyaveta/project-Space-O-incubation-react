@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const Admin = require('../model/adminModel');
 const Clients = require('../model/clientModel');
+// const {Request, Response} = require('express')
 const admin_jwt = require('jsonwebtoken');
 require('dotenv').config();
 module.exports.adminRegister = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -68,5 +69,26 @@ module.exports.getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, fun
     catch (err) {
         console.log(err, 'is the error that occured in the getAllUsers function in the adminControllers');
         return res.json({ status: false, msg: 'Something went wrong' });
+    }
+});
+module.exports.blockClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { _id } = req.body;
+        const client = yield Clients.findById({ _id });
+        if (client) {
+            client.isBanned = !client.isBanned;
+            client.save();
+            let msg;
+            if (client.isBanned === true)
+                msg = `Blocked ${client.clientname}`;
+            else
+                msg = `unblocked ${client.clientname}`;
+            return res.json({ status: true, msg });
+        }
+        return res.json({ status: false, msg: 'No users find' });
+    }
+    catch (err) {
+        console.log(err, 'is the error that occured in the blockClient function in the adminControllers');
+        return res.json({ status: false, msg: 'Something went wrong!' });
     }
 });

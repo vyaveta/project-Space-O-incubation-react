@@ -7,8 +7,8 @@ import axios from 'axios'
 import { getAllUsersRoute } from '../../utils/APIRoutes'
 
 
-const AdminHome = () => {
-  const [showSidebar,setShowSidebar] = useState(false)
+const AdminHome = ({showSidebar,setShowSidebar}) => {
+  const [clients,setClients] = useState()
   const navigate = useNavigate()
   const [cookie,setCookie,removeCookie] = useCookies([])
 
@@ -21,13 +21,14 @@ const AdminHome = () => {
        const getAllUsers = async () => {
         const {data} = await axios.get(getAllUsersRoute)
         console.log(data,'is the data')
+        setClients(data.clients)
        } 
        getAllUsers()
   },[])
   return (
     <div>
       <AdminHeader setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
-      <AdminIntro setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
+      <AdminIntro setShowSidebar={setShowSidebar} showSidebar={showSidebar} clients={clients}  />
     </div>
   )
 }
