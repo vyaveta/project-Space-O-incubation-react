@@ -29,8 +29,8 @@ const AdminLogin = () => {
          <img src={Sun} alt="" />
         </div>
       <div className="route"><div className="planet" id='first-planet'> <img src={Mars} alt=""  /> </div></div>
-      <div className="route"> <div className="planet" id='second-planet'> <img src={Earth} alt="" /> </div></div>
-      <div className="route"> <div className="planet" id='third-planet'> <img  className='saturn' src={Saturn} alt="" 
+      <div className="route" > <div className="planet" id='second-planet'> <img src={Earth} alt="" /> </div></div>
+      <div className="route"> <div className="planet" id='third-planet'> <img  className='saturn' src={Saturn} alt=""
       onClick={()=> setBoxMode(!boxMode)}
       /> </div></div>
     </div>

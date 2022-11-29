@@ -10,24 +10,29 @@ import { GiPowerButton } from 'react-icons/gi'
 import {toast}  from 'react-toastify'
 
 const ShowAllUsers = ({ showSidebar, setShowSidebar }) => {
+  const [count,setCount] = useState(0)
   const [cookie, setCookie, removeCookie] = useCookies([])
   let theClients = []
   const [clients, setClients] = useState([])
 
+  const get = async () => {
+    const { data } = await axios.get(getAllUsersRoute)
+    if (data.status) {
+      theClients = data.clients
+      setClients(data.clients)
+      console.log(clients, 'is the clients', theClients, 'how about this')
+      console.log(data.clients)
+      setClients(data.clients)
+      console.log(clients,'this');
+    }  
+  }
+
   useEffect(() => {
-    const get = async () => {
-      const { data } = await axios.get(getAllUsersRoute)
-      if (data.status) {
-        theClients = data.clients
-        setClients(data.clients)
-        console.log(clients, 'is the clients', theClients, 'how about this')
-        console.log(data.clients)
-        setClients(data.clients)
-        console.log(clients,'this');
-      }  
-    }
     get()
   }, [])
+  useEffect(() => {
+    get()
+  },[count])
   const blockClient = async (client) => {
     console.log(client)
     const {data} = await axios.post(blockClientRoute,{_id:client._id})
@@ -55,6 +60,7 @@ const ShowAllUsers = ({ showSidebar, setShowSidebar }) => {
                <button className='block__button'
                onClick={() => {
                 blockClient(data)
+                setCount(count+1)
                }}
                >{
                 data.isBanned ? <BsLightningFill /> :  <GiPowerButton />
