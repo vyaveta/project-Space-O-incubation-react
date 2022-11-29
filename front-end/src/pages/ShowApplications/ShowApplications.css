@@ -1,0 +1,44 @@
+.showApplications{
+    background: url(https://cutewallpaper.org/25/animated-galaxy-hd-wallpaper-gif/best-galaxy-gif-background-gifs-gfycat.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width:100vw;
+    min-height: 90vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.applications{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #333;
+    padding: 1rem;
+    border-radius: 1rem;
+    gap: 1rem;
+}
+.application{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.application h3{
+    font-size: 1.2rem;
+}
+.application__button{
+    padding: 0.5rem 1rem;
+    background: green;
+    border-radius: 1rem;
+    border:none;
+    color: white;
+    border: 1px solid white;
+    box-shadow: 0px 0 0 1px black;
+}
+.info__div{
+    width: 300px;
+}

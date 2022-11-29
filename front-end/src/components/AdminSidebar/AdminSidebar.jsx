@@ -18,7 +18,9 @@ const AdminSidebar = ({showSidebar,setShowsidebar}) => {
     <div className="admin-intro__left "
        style={{left:`${introLeft}px`}}
        >
-    <div className="list">
+    <div className="list"
+    onClick={() => navigate('/admin/showApplications')}
+    >
         <h4>Applications</h4>
     </div>
     <div className="list"

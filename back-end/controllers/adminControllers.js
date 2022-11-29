@@ -12,6 +12,7 @@ const Admin = require('../model/adminModel');
 const Clients = require('../model/clientModel');
 // const {Request, Response} = require('express')
 const admin_jwt = require('jsonwebtoken');
+const Applications = require('../model/applicationModel');
 require('dotenv').config();
 module.exports.adminRegister = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -90,5 +91,15 @@ module.exports.blockClient = (req, res) => __awaiter(void 0, void 0, void 0, fun
     catch (err) {
         console.log(err, 'is the error that occured in the blockClient function in the adminControllers');
         return res.json({ status: false, msg: 'Something went wrong!' });
+    }
+});
+module.exports.getApplications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const applications = yield Applications.find({});
+        return res.json({ status: true, applications });
+    }
+    catch (err) {
+        console.log(err, 'is the error that occure in the getApplications function in the admin controllers');
+        return res.josn({ status: false, msg: 'something went wrong!' });
     }
 });
