@@ -7,11 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 const AdminHeader = ({showSidebar,setShowSidebar}) => {
   const navigate = useNavigate()
-  const [cookie,setCookie,removeCookie] = useCookies([])
+  const [cookie,setCookie,removeCookie] = useCookies(['adminToken'])
 
-  const HandleLogout = () => {
+  const HandleLogout =  () => {
     console.log(cookie,'is the cookies')
-    removeCookie('adminToken')
+     removeCookie('adminToken')
     navigate('/admin/auth')
   }
 

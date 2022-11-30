@@ -10,6 +10,7 @@ import AdminHome from './pages/AdminHome/AdminHome';
 import ShowAllUsers from './pages/ShowAllUsers/ShowAllUsers';
 import ShowApplications from './pages/ShowApplications/ShowApplications';
 import { useState } from 'react';
+import RocketPage from './pages/RocketPage/RocketPage';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
     <Route path = '/admin' element = {<AdminHome showSidebar={showSidebar} setShowSidebar={setShowSidebar} />} />
     <Route path='/admin/showAllUsers' element={<ShowAllUsers showSidebar={showSidebar} setShowSidebar={setShowSidebar} />} />
     <Route path='/admin/showApplications' element={<ShowApplications showSidebar={showSidebar} setShowSidebar={setShowSidebar} />} />
+    <Route path='/admin/rocket' element={<RocketPage showSidebar={showSidebar} setShowSidebar={setShowSidebar} />} />
    </Routes>
    </BrowserRouter>
    <ToastContainer />

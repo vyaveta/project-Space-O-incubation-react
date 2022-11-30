@@ -1,0 +1,88 @@
+.rocket-wrapper {
+    background: url(../../assets/spaceTravel.gif);
+    width: 100vw;
+    overflow: hidden;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.seats {
+    background: gray;
+    width: 90vw;
+    height: 60vh;
+    border-radius: 10% 90% 90% 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1%;
+}
+
+.windowL,
+.windowR {
+    /* background-color: ; */
+    height: 10vh;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* padding:2px; */
+}
+
+.seat {
+    width: 4.7vw;
+    height: 9vh;
+    border-radius: 1rem;
+    cursor: grab;
+    border-radius: 20% 30% 30% 20%;
+    position: relative;
+}
+
+.seat::after {
+    content: '';
+    width: 15%;
+    height: 100%;
+    left: -1px;
+    position: absolute;
+    border-radius: 30%;
+    background-color: #ccc;
+    z-index: 9;
+}
+
+.seat::before {
+    content: '';
+    width: 95%;
+    height: 90%;
+    position: absolute;
+    border-radius: 0% 10% 10% 0%;
+    left: 0;
+    right: 0;
+    transform: translate(-1%,5%);
+    /* margin-left: auto;
+    margin-right: auto; */
+    z-index: 9;
+    background-color: transparent;
+    border: 3px solid #ccc;
+    border-left: transparent;
+    border-right: transparent;
+}
+
+.seat:active {
+    cursor: grabbing;
+    background-color: white !important;
+}
+
+.notBooked {
+    background-color: #333;
+}
+
+.booked {
+    background-color: red;
+}
+.chair{
+    font-size: 3rem;
+    color: white;
+}

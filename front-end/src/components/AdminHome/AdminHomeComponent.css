@@ -43,18 +43,18 @@
     animation-duration:60s;
     animation-iteration-count:infinite;
     animation-timing-function:ease-in;
-    animation-delay:10s;
+    animation-delay:1s;
     transform: translate(0%, -50%) scale(.1);
     opacity: .1;
 }
 .planet2{
     background-image: url(../../assets/planet2.png);
-    z-index: 2;
+    z-index: 1;
     animation-name: planets;
     animation-duration:60s;
     animation-iteration-count:infinite;
     animation-timing-function:ease-in;
-    animation-delay:40s;
+    animation-delay:2s;
     transform: translate(-50%, -50%)  scale(.1);
     opacity: 1;
 }
@@ -94,10 +94,10 @@
     }
     98%{
         opacity: 0;
-        transform: translate(-50%,-50%) scale(2.4);
+        transform: translate(0%,-80%) scale(2.4);
     }
     100%{
         opacity: 0;
-        transform: translate(-50%, -50%) scale(1) ;
+        transform: translate(-90%, -80%) scale(1) ;
     }
 }

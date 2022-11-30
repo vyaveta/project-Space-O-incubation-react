@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const Admin = require('../model/adminModel');
 const Clients = require('../model/clientModel');
+const Rockets = require('../model/rocketModel');
 // const {Request, Response} = require('express')
 const admin_jwt = require('jsonwebtoken');
 const Applications = require('../model/applicationModel');
@@ -119,6 +120,18 @@ module.exports.changeApplicationStatus = (req, res) => __awaiter(void 0, void 0,
     }
     catch (err) {
         console.log(err, 'is the error that occured in the changeApplicationStatus function in the adminControllers');
+        return res.json({ status: false, msg: 'Something went wrong' });
+    }
+});
+module.exports.getRocketDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const rocketDetails = yield Rockets.find({});
+        if (!rocketDetails)
+            return res.json({ status: false, msg: 'Oops the rocket got stolen!' });
+        return res.json({ status: true, msg: 'We got it', rocketDetails: rocketDetails[0] });
+    }
+    catch (e) {
+        console.log(e, 'is the error that occured in the getRocketDetails function in the admin controllers');
         return res.json({ status: false, msg: 'Something went wrong' });
     }
 });

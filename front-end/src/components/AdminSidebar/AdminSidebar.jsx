@@ -29,8 +29,15 @@ const AdminSidebar = ({showSidebar,setShowsidebar}) => {
     >
         <h4>Users</h4>
     </div>
-    <div className="list">
+    <div className="list"
+    onClick={() => navigate('/admin/rocket')}
+    >
         <h4>Rocket</h4>
+    </div>
+    <div className="list"
+    onClick={() => navigate('/admin')}
+    >
+        <h4>Home</h4>
     </div>
        </div>
   )

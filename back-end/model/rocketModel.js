@@ -4,14 +4,23 @@ const rocketSchema = new mongoose__rocket.Schema({
     rocketName: {
         type: String, required: true, min: 3
     },
-    speed: {
+    speedInMilesPerHour: {
         type: Number, required: true
     },
     totalBookedClients: {
-        type: Array
+        type: [Object]
     },
-    seats: {
-        type: Array
+    windowL: {
+        type: [Object]
+    },
+    windowR: {
+        type: [Object]
+    },
+    pilots: {
+        type: [Object]
+    },
+    backSeat: {
+        type: [Object]
     }
 });
 module.exports = mongoose__rocket.model('Rocket', rocketSchema);

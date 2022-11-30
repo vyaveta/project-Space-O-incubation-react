@@ -37,7 +37,10 @@ const ShowAllUsers = ({ showSidebar, setShowSidebar }) => {
     console.log(client)
     const {data} = await axios.post(blockClientRoute,{_id:client._id})
     console.log(data,'is the data from the block client function')
-    if(data.status) return toast.success(data.msg)
+    if(data.status) {
+      setCount(count+1)
+      return toast.success(data.msg)
+    }
     toast.error(data.msg)
   }
   return (
@@ -60,7 +63,6 @@ const ShowAllUsers = ({ showSidebar, setShowSidebar }) => {
                <button className='block__button'
                onClick={() => {
                 blockClient(data)
-                setCount(count+1)
                }}
                >{
                 data.isBanned ? <BsLightningFill /> :  <GiPowerButton />

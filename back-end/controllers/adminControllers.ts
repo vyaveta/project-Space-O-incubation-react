@@ -1,5 +1,6 @@
 const Admin = require('../model/adminModel')
 const Clients = require('../model/clientModel')
+const Rockets = require('../model/rocketModel')
 // const {Request, Response} = require('express')
 const admin_jwt : any = require('jsonwebtoken')
 const Applications = require('../model/applicationModel')
@@ -101,5 +102,16 @@ module.exports.changeApplicationStatus = async (req: any , res: any) => {
     }catch(err){
         console.log(err,'is the error that occured in the changeApplicationStatus function in the adminControllers')
         return res.json({status: false,msg:'Something went wrong'})
+    }
+}
+
+module.exports.getRocketDetails = async (req: any ,res: any ) => {
+    try{
+        const rocketDetails = await Rockets.find({})
+        if(!rocketDetails) return res.json({status: false,msg: 'Oops the rocket got stolen!'})
+        return res.json({status: true,msg: 'We got it',rocketDetails: rocketDetails[0]})
+    }catch(e){
+        console.log(e,'is the error that occured in the getRocketDetails function in the admin controllers')
+        return res.json({status: false, msg:'Something went wrong'})
     }
 }
