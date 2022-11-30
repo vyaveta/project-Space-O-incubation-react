@@ -12,3 +12,4 @@ export const adminRegisterRoute = `${BACKEND_PORT}/admin/register`
 export const getAllUsersRoute = `${BACKEND_PORT}/admin/getAllUsers`
 export const blockClientRoute = `${BACKEND_PORT}/admin/blockClient`
 export const getApplicationsRoute = `${BACKEND_PORT}/admin/getApplications`
+export const changeApplicationStatusRoute = `${BACKEND_PORT}/admin/changeApplicationStatus`

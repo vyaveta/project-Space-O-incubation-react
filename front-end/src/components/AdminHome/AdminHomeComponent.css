@@ -1,0 +1,103 @@
+.AdminHomeComponent{
+    width: 100vw;
+    overflow: hidden;
+    height: 90vh;
+    background: url(../../assets/bgspace.png);
+    background-size: cover;
+    /* overflow: hidden !important; */
+    position: relative;
+}
+.set-image{
+    overflow: hidden !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* display: none; */
+    position: absolute;
+    width: 90vw;
+    height: 90vh;
+    left: 50;
+    top:50%;
+}
+.stars1{
+    background-image: url(../../assets/stars1.png);
+    z-index: 0;
+    animation-name: stars;
+    animation-duration:40s;
+    animation-iteration-count:infinite;
+    animation-timing-function:linear;
+}
+.stars2{
+    background-image: url(../../assets/stars2.png);
+    z-index: 0;
+    animation-name: stars;
+    animation-duration:40s;
+    animation-iteration-count:infinite;
+    animation-timing-function:linear;
+    animation-delay:20s;
+    transform: translate(0%,-40%) scale(1.2);
+}
+.planet1{
+    background-image: url(../../assets/planet1.png);
+    z-index: 2;
+    animation-name: planets;
+    animation-duration:60s;
+    animation-iteration-count:infinite;
+    animation-timing-function:ease-in;
+    animation-delay:10s;
+    transform: translate(0%, -50%) scale(.1);
+    opacity: .1;
+}
+.planet2{
+    background-image: url(../../assets/planet2.png);
+    z-index: 2;
+    animation-name: planets;
+    animation-duration:60s;
+    animation-iteration-count:infinite;
+    animation-timing-function:ease-in;
+    animation-delay:40s;
+    transform: translate(-50%, -50%)  scale(.1);
+    opacity: 1;
+}
+.spaceship{
+    background-image: url(../../assets/spaceship2.png);
+    transform: translate(0%, -50%);
+    width: 100vw;
+    z-index: 3;
+    background-position: center;
+}
+
+@keyframes stars {
+    0%{
+        opacity: .1;
+    }
+    10%{
+        opacity: 1;
+    }
+    90%{
+        opacity: 0;
+        transform: translate(-50% , -50%) scale(1.8) ;
+    }
+    100%{
+        opacity: 0;
+        transform: (-50%, -50%) scale(1);
+    }
+}
+@keyframes planets{
+    0%{
+        opacity: 1;
+    }
+    5%{
+        opacity: 1;
+    }
+    95%{
+        opacity: 1;
+    }
+    98%{
+        opacity: 0;
+        transform: translate(-50%,-50%) scale(2.4);
+    }
+    100%{
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1) ;
+    }
+}

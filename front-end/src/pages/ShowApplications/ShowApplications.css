@@ -42,3 +42,12 @@
 .info__div{
     width: 300px;
 }
+.decline-button-admin{
+    background-color: red !important;
+}
+.view-button-admin{
+    background: blue;
+}
+.application-status{
+    color: white;
+}

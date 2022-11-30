@@ -4,13 +4,13 @@ import AdminHeader from '../../components/AdminHeader/AdminHeader'
 import AdminSidebar from '../../components/AdminSidebar/AdminSidebar'
 import axios from 'axios'
 import { useEffect } from 'react'
-import { getApplicationsRoute } from '../../utils/APIRoutes'
+import { changeApplicationStatusRoute, getApplicationsRoute } from '../../utils/APIRoutes'
 import {toast} from 'react-toastify'
 import Button from 'react-bootstrap/Button';
 import ApplicationModel from '../../modals/ClientApplicationForTheAdminToView/ApplicationModel'
 
 const ShowApplications = ({showSidebar,setShowSidebar}) => {
-
+    const [count,setCount] = useState(0) // I think there is a more effcient way to do this , but I dont have enough time to do my research. Since I have got a deadline to complete this task
     const [show, setShow] = useState(false);
     const [application,setApplication] = useState({})
 
@@ -18,23 +18,36 @@ const ShowApplications = ({showSidebar,setShowSidebar}) => {
     const handleShow = () => setShow(true);
 
     const [applications,setApplications] = useState([])
+
+    const getApplications = async() => {
+      const {data} = await axios.get(getApplicationsRoute)
+      console.log(data,'is the application datas')
+      if(data.status) {
+          setApplications(data.applications)
+      }
+  }
+
     useEffect(() => {
-        const getApplications = async() => {
-            const {data} = await axios.get(getApplicationsRoute)
-            console.log(data,'is the application datas')
-            if(data.status) {
-                setApplications(data.applications)
-            }
-        }
         getApplications()
     },[])
+
+    useEffect(() => {
+      getApplications()
+    },[count])
 
     const showApplication = (index) => {
         console.log('gonna show',applications[index])
         setShow(true)
         setApplication(applications[index])
     }
-
+    const changeApplicationStatus = async (_id,status) => {
+      const {data} = await axios.post(changeApplicationStatusRoute,{_id,status})
+      if(data.status) {
+        toast.success(data.msg)
+        setCount(count+1)
+      }
+      else toast.error(data.msg)
+    }
   return (
     <div>
         <AdminHeader setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
@@ -49,13 +62,18 @@ const ShowApplications = ({showSidebar,setShowSidebar}) => {
                <h3>{application.clientname}</h3>
                 <h3>{application.clientEmail}</h3>
                </div>
-                <button className='application__button'
+                <button className='application__button view-button-admin'
                 onClick={() => showApplication(index)}
                 >view</button>
-                { application.isDeclined ? '' :
-                  <button className='application__button'>Approve</button>
-                }
-                <button className='application__button'>Decline</button>
+                { application.isApproved ? <p className='application-status'>Approved</p> : application.isDeclined ? <p  className='application-status'>Declined</p> : <> 
+                <button className='application__button'
+                  onClick={() => changeApplicationStatus(application._id,'approve')}
+                  >Approve</button>
+                <button className='application__button decline-button-admin'
+                 onClick={() => changeApplicationStatus(application._id,'decline')}
+                >Decline</button>
+                </>
+              }
             </div>
                 )
             })

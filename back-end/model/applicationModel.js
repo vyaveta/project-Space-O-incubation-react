@@ -27,6 +27,12 @@ const applicationSchema = new mongoose__applications.Schema({
     },
     reason: {
         type: String, required: true
+    },
+    isApproved: {
+        type: Boolean, default: false
+    },
+    isDeclined: {
+        type: Boolean, default: false
     }
 });
 module.exports = mongoose__applications.model('Applications', applicationSchema);

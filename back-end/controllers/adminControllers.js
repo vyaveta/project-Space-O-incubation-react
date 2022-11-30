@@ -103,3 +103,22 @@ module.exports.getApplications = (req, res) => __awaiter(void 0, void 0, void 0,
         return res.josn({ status: false, msg: 'something went wrong!' });
     }
 });
+module.exports.changeApplicationStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { _id, status } = req.body;
+        const application = yield Applications.findById({ _id });
+        console.log(application, 'is the application');
+        if (!application)
+            return res.json({ status: false, msg: 'No application found' });
+        if (status === 'approve')
+            application.isApproved = true;
+        else
+            application.isDeclined = true;
+        application.save();
+        return res.json({ status: true, msg: 'Done' });
+    }
+    catch (err) {
+        console.log(err, 'is the error that occured in the changeApplicationStatus function in the adminControllers');
+        return res.json({ status: false, msg: 'Something went wrong' });
+    }
+});

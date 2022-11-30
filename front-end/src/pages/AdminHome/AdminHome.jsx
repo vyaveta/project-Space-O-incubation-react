@@ -5,6 +5,8 @@ import AdminHeader from '../../components/AdminHeader/AdminHeader'
 import AdminIntro from '../../components/AdminIntro/AdminIntro'
 import axios from 'axios'
 import { getAllUsersRoute } from '../../utils/APIRoutes'
+import AdminSidebar from '../../components/AdminSidebar/AdminSidebar'
+import AdminHomeComponent from '../../components/AdminHome/AdminHomeComponent'
 
 
 const AdminHome = ({showSidebar,setShowSidebar}) => {
@@ -28,7 +30,9 @@ const AdminHome = ({showSidebar,setShowSidebar}) => {
   return (
     <div>
       <AdminHeader setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
-      <AdminIntro setShowSidebar={setShowSidebar} showSidebar={showSidebar} clients={clients}  />
+      <AdminSidebar setShowsidebar={setShowSidebar} showSidebar={showSidebar} />
+      <AdminHomeComponent />
+      {/* <AdminIntro setShowSidebar={setShowSidebar} showSidebar={showSidebar} clients={clients}  /> */}
     </div>
   )
 }
