@@ -4,6 +4,7 @@ const Rockets = require('../model/rocketModel')
 // const {Request, Response} = require('express')
 const admin_jwt : any = require('jsonwebtoken')
 const Applications = require('../model/applicationModel')
+const Rocket = require('../model/rocketModel')
 require('dotenv').config()
 
 module.exports.adminRegister = async (req: any , res: any , next: Function) => {
@@ -93,7 +94,6 @@ module.exports.changeApplicationStatus = async (req: any , res: any) => {
     try{
         const {_id,status} : {_id: string,status: string} = req.body
         const application = await Applications.findById({_id})
-        console.log(application,'is the application')
         if(!application) return res.json({status: false,msg:'No application found'})
         if(status==='approve') application.isApproved=true
         else application.isDeclined=true
@@ -113,5 +113,50 @@ module.exports.getRocketDetails = async (req: any ,res: any ) => {
     }catch(e){
         console.log(e,'is the error that occured in the getRocketDetails function in the admin controllers')
         return res.json({status: false, msg:'Something went wrong'})
+    }
+}
+
+module.exports.getApprovedAndNonAllocatedApplications = async (req: any , res: any) => {
+    try{
+        const application = await Applications.find({isApproved:true,isDeclined:false,isAllocated:false})
+        if(application[0]==null|| !application[0]) return res.json({status: true , msg:'No applications to allocate'})
+        return res.json({status: true, msg: 'Success' , application})
+    }catch(err){
+        res.json({status: false,msg:'Something went wrong'})
+        console.log(err,'is the error that occured in the getApprovedAndNonAllocatedApplications function in the admin controller')
+    }
+}
+
+module.exports.allocateSeatForClient = async (req: any , res: any) => {
+    try{
+        console.log(req.body,'is the req body')
+        const {clientEmail, seatName , seatIndex} : {clientEmail: string , seatName: string , seatIndex: string} = req.body
+       
+          const client = await Clients.findOne({email:clientEmail})
+          client.isSeatAllocated = true
+          const rocket = await  Rocket.findOne()
+          console.log(rocket,'is the rocket')
+          if(seatName==='windowL'){
+            rocket.windowL[seatIndex].isBooked = true
+            console.log('window L ',rocket)
+          }
+          else  rocket.windowR[seatIndex].isBooked = true
+          console.log(rocket.windowL[seatIndex],'is the seat index')
+          const application = await Applications.findOne({clientEmail})
+          application.isAllocated = true
+
+          client.save()
+          const rt = new Rocket (rocket)
+
+        await rt.markModified('rocket')
+         await rt.save((err:Error) => {
+            if(err) console.log(err,'is error that blocks rocket.save()')
+            else console.log('no error')
+         })
+          application.save()
+          return res.json({status: true, msg: `Successfully allocated WindowL seat to ${client.clientname}`})
+    }catch(err){
+        console.log(err,'is the error that occured in the allocateSeatForClient function in the admin controller')
+        return res.json({status: false,msg: 'Something went wrong!'})
     }
 }

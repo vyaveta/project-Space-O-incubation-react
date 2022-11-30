@@ -2,13 +2,13 @@ const mongoose__rocket : any = require('mongoose')
 
 const rocketSchema: any = new mongoose__rocket.Schema({
     rocketName : {
-        type: String, required : true ,min: 3
+        type: String, required : true ,min: 3 ,default : 'NovaT'
     },
     speedInMilesPerHour: {
-        type: Number, required: true
+        type: Number, required: true ,default : 60
     },
     totalBookedClients: {
-        type: [Object]
+        type: Array
     },
     windowL:{
         type: [Object]

@@ -18,6 +18,12 @@ const clientSchema : any = new mongoose__client.Schema({
     },
     isBooked : {
         type : Boolean, default : false
+    },
+    isApplicationApproved:{
+        type: Boolean, default: false
+    },
+    isSeatAllocated: {
+        type: Boolean, default: false
     }
 })
 

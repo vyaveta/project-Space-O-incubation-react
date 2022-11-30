@@ -80,7 +80,7 @@
 }
 
 .booked {
-    background-color: red;
+    background-color: red !important;
 }
 .chair{
     font-size: 3rem;

@@ -14,3 +14,5 @@ export const blockClientRoute = `${BACKEND_PORT}/admin/blockClient`
 export const getApplicationsRoute = `${BACKEND_PORT}/admin/getApplications`
 export const changeApplicationStatusRoute = `${BACKEND_PORT}/admin/changeApplicationStatus`
 export const getRocketDetailsRoute = `${BACKEND_PORT}/admin/getRocketDetails`
+export const getApprovedAndNonAllocatedApplicationsRoute = `${BACKEND_PORT}/admin/getApprovedAndNonAllocatedApplications`
+export const allocateSeatForClientRoute = `${BACKEND_PORT}/admin/allocateSeatForClient`

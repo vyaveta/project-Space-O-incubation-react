@@ -1,5 +1,10 @@
 const admin_router = require('express').Router()
-const {adminRegister , adminAuthentication , getAllUsers , blockClient , getApplications , changeApplicationStatus , getRocketDetails} = require("../controllers/adminControllers")
+const {
+     adminRegister , adminAuthentication , getAllUsers , blockClient ,
+     getApplications , changeApplicationStatus , getRocketDetails ,
+     getApprovedAndNonAllocatedApplications , allocateSeatForClient
+     } 
+     = require("../controllers/adminControllers")
 module.exports = admin_router
 
 admin_router.post('/register',adminRegister)
@@ -15,3 +20,7 @@ admin_router.get('/getApplications',getApplications)
 admin_router.post('/changeApplicationStatus',changeApplicationStatus)
 
 admin_router.get('/getRocketDetails',getRocketDetails)
+
+admin_router.get('/getApprovedAndNonAllocatedApplications',getApprovedAndNonAllocatedApplications)
+
+admin_router.post('/allocateSeatForClient',allocateSeatForClient)

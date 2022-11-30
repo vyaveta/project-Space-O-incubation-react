@@ -33,6 +33,9 @@ const applicationSchema = new mongoose__applications.Schema({
     },
     isDeclined: {
         type: Boolean, default: false
+    },
+    isAllocated: {
+        type: Boolean, default: false
     }
 });
 module.exports = mongoose__applications.model('Applications', applicationSchema);
