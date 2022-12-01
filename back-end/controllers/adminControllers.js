@@ -157,14 +157,19 @@ module.exports.allocateSeatForClient = (req, res) => __awaiter(void 0, void 0, v
         console.log(rocket, 'is the rocket');
         if (seatName === 'windowL') {
             rocket.windowL[seatIndex].isBooked = true;
+            rocket.windowL[seatIndex].user = client.clientname;
             console.log('window L ', rocket);
         }
-        else
+        else {
             rocket.windowR[seatIndex].isBooked = true;
-        console.log(rocket.windowL[seatIndex], 'is the seat index');
+            rocket.windowR[seatIndex].user = client.clientname;
+        }
         const application = yield Applications.findOne({ clientEmail });
         application.isAllocated = true;
-        //   client.save()
+        const applicationEdited = new Applications(application);
+        yield applicationEdited.save();
+        const clientedited = new Clients(client);
+        yield clientedited.save();
         const rt = new Rocket(rocket);
         yield rt.markModified('rocket');
         yield rt.save((err) => {
@@ -173,7 +178,7 @@ module.exports.allocateSeatForClient = (req, res) => __awaiter(void 0, void 0, v
             else
                 console.log('no error');
         });
-        //   application.save()
+        application.save();
         return res.json({ status: true, msg: `Successfully allocated WindowL seat to ${client.clientname}` });
     }
     catch (err) {

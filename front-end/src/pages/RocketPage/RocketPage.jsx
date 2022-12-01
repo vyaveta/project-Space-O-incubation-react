@@ -15,10 +15,10 @@ const RocketPage = ({setShowSidebar, showSidebar}) => {
     const [seatName,setSeatName] = useState()
     const [seatIndex,setSeatIndex] = useState()
     const [show, setShow] = useState(false);
-    const [windowL,setWindowL] = useState([])
-    const [windowR,setWindowR] = useState([])
+    const [windowL,setWindowL] = useState([0,0])
+    const [windowR,setWindowR] = useState([0,0])
     const [backSeats,setBackseats] = useState([])
-    const [applications,setApplications] = useState([])
+    const [applications,setApplications] = useState([0])
 
     const getRocketDetails = async () => {
         const {data} = await axios.get(getRocketDetailsRoute)
@@ -26,6 +26,7 @@ const RocketPage = ({setShowSidebar, showSidebar}) => {
         setWindowL(data.rocketDetails.windowL)
         setWindowR(data.rocketDetails.windowR)
         setBackseats(data.rocketDetails.backSeats)
+        toast.success('changed')
         }
 
     useEffect(() => {
@@ -61,7 +62,7 @@ const RocketPage = ({setShowSidebar, showSidebar}) => {
         const {data} = await axios.post(allocateSeatForClientRoute,{clientEmail,seatName,seatIndex})
         if(data.status) {
             toast.success(data.msg)
-            setCount(count++)
+            setCount(count+1)
         }
         else toast.error(data.msg)
     }
@@ -76,14 +77,14 @@ const RocketPage = ({setShowSidebar, showSidebar}) => {
             <div className="windowL">
                 {
                     windowL.map((seat,index) => <div key={index} className={`seat ${seat.isBooked ? 'booked' : 'notBooked'}`} 
-                    onClick={() => bookSeat('windowL',index)}
-                    ></div> )
+                    onClick={seat.isBooked ? () => console.log('hello') : () => bookSeat('windowL',index)}
+                    >{ seat.user }</div> )
                 }
             </div>
             <div className="windowR">
                 {
                     windowR.map((seat,index) => <div key={index} className={`seat ${seat.isBooked ? 'booked' : 'notBooked'}`} 
-                    onClick={() => bookSeat('windowR',index)}
+                    onClick={seat.isBooked ? () => console.log('hello') : () => bookSeat('windowR',index)}
                     ></div>)
                 }
             </div>

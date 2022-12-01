@@ -20,7 +20,10 @@ const ModalForSeatAllocating = ({show,handleClose,applications,setLockedApplicat
         <Modal.Title> Applications</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <select name="" id="" onChange={(e) => setSelectedApplication(e.target.value)}>
+      {
+        applications ?
+        <select name="" id="" onChange={(e) => setSelectedApplication(e.target.value)}>
+        <option value="">Select</option>
         {
             applications.map((application,index) => {
                 return  <option key={index} value={application.clientEmail}
@@ -28,6 +31,8 @@ const ModalForSeatAllocating = ({show,handleClose,applications,setLockedApplicat
             })
         }
       </select>
+      : <h2>No pending applications</h2>
+      }
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleAllocate}>

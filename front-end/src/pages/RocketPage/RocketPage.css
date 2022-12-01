@@ -7,19 +7,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 2%;
 }
 
 .seats {
-    background: gray;
-    width: 90vw;
-    height: 60vh;
-    border-radius: 10% 90% 90% 10%;
+    background: whitesmoke;
+    width: 70vw;
+    height: 35vh;
+    border-radius: 10% 50% 50% 10%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     padding: 1%;
+    position: relative;
+    background: whitesmoke;
+    box-shadow: 0 0 60px 0 white;
+    z-index: 999 !important;
 }
+/* .seats::after{
+    content: '';
+    position: absolute;
+    height: 60%;
+    width: 18%;
+    right: -6vw;
+    top: 5vh;
+    transform: rotate(45deg);
+    z-index: -99 !important;
+    background: red;
+} */
 
 .windowL,
 .windowR {
@@ -39,6 +55,13 @@
     cursor: grab;
     border-radius: 20% 30% 30% 20%;
     position: relative;
+    color: white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-weight: 900;
+    font-size: 12px;
+    padding: 1%;
 }
 
 .seat::after {

@@ -119,7 +119,7 @@ module.exports.getRocketDetails = async (req: any ,res: any ) => {
 module.exports.getApprovedAndNonAllocatedApplications = async (req: any , res: any) => {
     try{
         const application = await Applications.find({isApproved:true,isDeclined:false,isAllocated:false})
-        if(application[0]==null|| !application[0]) return res.json({status: true , msg:'No applications to allocate'})
+        if(application[0]==null|| !application[0]) return res.json({status: true , msg:'No applications to allocate' , application})
         return res.json({status: true, msg: 'Success' , application})
     }catch(err){
         res.json({status: false,msg:'Something went wrong'})
@@ -138,22 +138,27 @@ module.exports.allocateSeatForClient = async (req: any , res: any) => {
           console.log(rocket,'is the rocket')
           if(seatName==='windowL'){
             rocket.windowL[seatIndex].isBooked = true
+            rocket.windowL[seatIndex].user = client.clientname
             console.log('window L ',rocket)
           }
-          else  rocket.windowR[seatIndex].isBooked = true
-          console.log(rocket.windowL[seatIndex],'is the seat index')
+          else  {
+            rocket.windowR[seatIndex].isBooked = true
+            rocket.windowR[seatIndex].user = client.clientname
+          }
           const application = await Applications.findOne({clientEmail})
+          
           application.isAllocated = true
-
-          client.save()
+          const applicationEdited = new Applications(application)
+          await applicationEdited.save()
+          const clientedited = new Clients(client)
+          await clientedited.save()
           const rt = new Rocket (rocket)
-
-        await rt.markModified('rocket')
+         await rt.markModified('rocket')
          await rt.save((err:Error) => {
             if(err) console.log(err,'is error that blocks rocket.save()')
             else console.log('no error')
          })
-          application.save()
+        //   application.save()
           return res.json({status: true, msg: `Successfully allocated WindowL seat to ${client.clientname}`})
     }catch(err){
         console.log(err,'is the error that occured in the allocateSeatForClient function in the admin controller')
