@@ -5,7 +5,7 @@ import Stars from '../../assets/stars.gif'
 import Earth from '../../assets/spaceTravel.gif'
 
 
-const ClientInfo = ({text , text2 , setAppear , allowBooking}) => {
+const ClientInfo = ({text , text2 , setAppear , allowBooking , client}) => {
   return (
     <div className="scene" style={{
       'backgroundImage':`url(${Earth})`,
@@ -21,8 +21,10 @@ const ClientInfo = ({text , text2 , setAppear , allowBooking}) => {
          {text2} </h3>
          <div className="button">
          {
-          allowBooking?  <button className="bluepill-button" onClick={() => setAppear(true)}>Book Now!</button> : ( 
-            <p className='notice-text'>You have sent your booking application</p>
+          allowBooking?  <button className="bluepill-button" onClick={() => setAppear(true)}>Book Now!</button> : client.allocatedSeat === 'not allocated' ?
+          <p className='notice-text'>You have sent your booking application</p> : 
+          ( 
+            <p className='notice-text'>Your seat is confirmed in {client.allocatedSeat}</p>
           )
          }
          </div>

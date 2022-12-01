@@ -139,11 +139,13 @@ module.exports.allocateSeatForClient = async (req: any , res: any) => {
           if(seatName==='windowL'){
             rocket.windowL[seatIndex].isBooked = true
             rocket.windowL[seatIndex].user = client.clientname
+            client.allocatedSeat =  `Left window seat no: ${seatIndex}`
             console.log('window L ',rocket)
           }
           else  {
             rocket.windowR[seatIndex].isBooked = true
             rocket.windowR[seatIndex].user = client.clientname
+            client.allocatedSeat =  `right window seat no: ${seatIndex}`
           }
           const application = await Applications.findOne({clientEmail})
           

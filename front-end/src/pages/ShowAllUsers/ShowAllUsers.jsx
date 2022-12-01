@@ -8,8 +8,11 @@ import { useCookies } from 'react-cookie'
 import {BsLightningFill} from 'react-icons/bs'
 import { GiPowerButton } from 'react-icons/gi'
 import {toast}  from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const ShowAllUsers = ({ showSidebar, setShowSidebar }) => {
+  
+  const navigate = useNavigate()
   const [count,setCount] = useState(0)
   const [cookie, setCookie, removeCookie] = useCookies([])
   let theClients = []
@@ -29,6 +32,7 @@ const ShowAllUsers = ({ showSidebar, setShowSidebar }) => {
 
   useEffect(() => {
     get()
+    if(!cookie.adminToken) navigate('/admin/auth')
   }, [])
   useEffect(() => {
     get()

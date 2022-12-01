@@ -1,3 +1,13 @@
+:root {
+    --black: #565656;
+    --dark-gray: #868689;
+    --gray: #eaeae6;
+    --red: #833111;
+    --silver: #dcdcd7;
+    --dark-green: #515f56;
+    --orange: #cc9339;
+  } 
+  
 .scene{
     position: relative;
     width: 100vw;
@@ -31,6 +41,7 @@
     height: 150px;
     border-radius: 50% 50% 50% 50%;
     background: linear-gradient(yellow,red);
+    box-shadow: 0 0 9000px 50px var(--orange);
     filter: blur(4px);
     transform: rotate(90deg);
 }
@@ -44,6 +55,7 @@
     height: 150px;
     border-radius: 50% 50% 50% 50%;
     background: linear-gradient(yellow,red);
+    box-shadow: 0 0 9000px 50px var(--orange);
     filter: blur(4px);
     transform: rotate(90deg);
 }

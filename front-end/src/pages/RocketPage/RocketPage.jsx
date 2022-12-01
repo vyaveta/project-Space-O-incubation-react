@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
 import './RocketPage.css'
-import AdminHeader from '../../components/AdminHeader/AdminHeader'
-import AdminSidebar from '../../components/AdminSidebar/AdminSidebar'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { useEffect } from 'react'
-import { allocateSeatForClientRoute, getApplicationsRoute, getApprovedAndNonAllocatedApplicationsRoute, getRocketDetailsRoute } from '../../utils/APIRoutes'
 import {toast} from 'react-toastify'
-import {MdChair} from 'react-icons/md'
+import { useCookies } from 'react-cookie'
+
+import { allocateSeatForClientRoute, getApplicationsRoute, getApprovedAndNonAllocatedApplicationsRoute, getRocketDetailsRoute } from '../../utils/APIRoutes'
+import AdminSidebar from '../../components/AdminSidebar/AdminSidebar'
+import AdminHeader from '../../components/AdminHeader/AdminHeader'
 import ModalForSeatAllocating from '../../modals/ModalForSeatAllocating/ModalForSeatAllocating'
+import { useNavigate } from 'react-router-dom'
 
 const RocketPage = ({setShowSidebar, showSidebar}) => {
+    
+    const navigate = useNavigate()
+    const [cookie,setCookie,removeCookie] = useCookies([])
+
     const [count, setCount] = useState(0)
     const [lockedApplication,setLockedApplication] = useState()
     const [seatName,setSeatName] = useState()
@@ -26,17 +32,16 @@ const RocketPage = ({setShowSidebar, showSidebar}) => {
         setWindowL(data.rocketDetails.windowL)
         setWindowR(data.rocketDetails.windowR)
         setBackseats(data.rocketDetails.backSeats)
-        toast.success('changed')
         }
 
     useEffect(() => {
         getRocketDetails()
+        if(!cookie.adminToken) navigate('/admin/auth')
     },[])
 
     const getApplications = async () => {
         const {data} = await axios.get(getApprovedAndNonAllocatedApplicationsRoute)
         if(data.status===false) return toast.error(data.msg)
-        console.log(data,'is the application list')
         setApplications(data.application)
     }
 
@@ -85,7 +90,7 @@ const RocketPage = ({setShowSidebar, showSidebar}) => {
                 {
                     windowR.map((seat,index) => <div key={index} className={`seat ${seat.isBooked ? 'booked' : 'notBooked'}`} 
                     onClick={seat.isBooked ? () => console.log('hello') : () => bookSeat('windowR',index)}
-                    ></div>)
+                    >{seat.user}</div>)
                 }
             </div>
         </div>

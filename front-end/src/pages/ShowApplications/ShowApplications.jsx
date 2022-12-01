@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
 import './ShowApplications.css'
-import AdminHeader from '../../components/AdminHeader/AdminHeader'
-import AdminSidebar from '../../components/AdminSidebar/AdminSidebar'
 import axios from 'axios'
 import { useEffect } from 'react'
-import { changeApplicationStatusRoute, getApplicationsRoute } from '../../utils/APIRoutes'
 import {toast} from 'react-toastify'
 import Button from 'react-bootstrap/Button';
+import { useCookies } from 'react-cookie'
+
+import AdminSidebar from '../../components/AdminSidebar/AdminSidebar'
+import { changeApplicationStatusRoute, getApplicationsRoute } from '../../utils/APIRoutes'
+import AdminHeader from '../../components/AdminHeader/AdminHeader'
 import ApplicationModel from '../../modals/ClientApplicationForTheAdminToView/ApplicationModel'
+import { useNavigate } from 'react-router-dom'
 
 const ShowApplications = ({showSidebar,setShowSidebar}) => {
+
+    const [cookie,setCookie,removeCookie] = useCookies([])
+    const navigate = useNavigate()
+
     const [count,setCount] = useState(0) // I think there is a more effcient way to do this , but I dont have enough time to do my research. Since I have got a deadline to complete this task
     const [show, setShow] = useState(false);
     const [application,setApplication] = useState({})
@@ -29,6 +36,7 @@ const ShowApplications = ({showSidebar,setShowSidebar}) => {
 
     useEffect(() => {
         getApplications()
+        if(!cookie.adminToken) navigate('/admin/auth')
     },[])
 
     useEffect(() => {

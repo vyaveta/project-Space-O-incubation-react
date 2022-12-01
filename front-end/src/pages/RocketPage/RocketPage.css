@@ -1,3 +1,13 @@
+:root {
+    --black: #565656;
+    --dark-gray: #868689;
+    --gray: #eaeae6;
+    --red: #833111;
+    --silver: #dcdcd7;
+    --dark-green: #515f56;
+    --orange: #cc9339;
+  } 
+  
 .rocket-wrapper {
     background: url(../../assets/spaceTravel.gif);
     width: 100vw;
@@ -11,7 +21,7 @@
 }
 
 .seats {
-    background: whitesmoke;
+    background: linear-gradient(to left, var(--orange),var(--orange),  var(--red));
     width: 70vw;
     height: 35vh;
     border-radius: 10% 50% 50% 10%;
@@ -21,12 +31,12 @@
     justify-content: space-between;
     padding: 1%;
     position: relative;
-    background: whitesmoke;
-    box-shadow: 0 0 60px 0 white;
+    /* background: transparent; */
+    box-shadow: 0 0 60px 0 var(--orange);
     z-index: 999 !important;
 }
-/* .seats::after{
-    content: '';
+.seats::after{
+    /* content: '';
     position: absolute;
     height: 60%;
     width: 18%;
@@ -34,8 +44,18 @@
     top: 5vh;
     transform: rotate(45deg);
     z-index: -99 !important;
-    background: red;
-} */
+    background: red; */
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 85px;
+    left: 940px;
+    transform: rotate(90deg);
+    /* background-image: var(--orange); */
+    background-image: linear-gradient(to right, var(--orange), var(--orange));
+    clip-path: path("M 37.5,0 C 0,39 0,82 0,87 L 75,87 C 75,82 75,39 37.5,0");
+}
 
 .windowL,
 .windowR {
@@ -81,6 +101,7 @@
     height: 90%;
     position: absolute;
     border-radius: 0% 10% 10% 0%;
+    top: 1%;
     left: 0;
     right: 0;
     transform: translate(-1%,5%);

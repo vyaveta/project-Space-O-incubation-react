@@ -1,9 +1,10 @@
 import React,{useEffect,useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie'
+import axios from 'axios'
+
 import AdminHeader from '../../components/AdminHeader/AdminHeader'
 import AdminIntro from '../../components/AdminIntro/AdminIntro'
-import axios from 'axios'
 import { getAllUsersRoute } from '../../utils/APIRoutes'
 import AdminSidebar from '../../components/AdminSidebar/AdminSidebar'
 import AdminHomeComponent from '../../components/AdminHome/AdminHomeComponent'

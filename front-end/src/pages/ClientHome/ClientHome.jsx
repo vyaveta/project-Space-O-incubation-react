@@ -13,6 +13,7 @@ import ClientBooking from '../../modals/ClientBooking/ClientBooking'
 import { useState } from 'react'
 
 const ClientHome = () => {
+    const [client , setClient] = useState()
     const [allowBooking,setAllowBooking] = useState(true)
     const [appear,setAppear] = useState(false)
     const navigate = useNavigate()
@@ -30,21 +31,22 @@ const ClientHome = () => {
                 }else{
                     if(data.client.isBooked) setAllowBooking(false)
                     toast(`Hi ${data.client.clientname} `,{theme: 'light'})
+                    setClient(data.client)
                 }
             }
         }
         verifyClient()
     },[])
 
-    const handleLogout = () => {
-        removeCookie('clientToken')
-        navigate('/login')
-    }
+    // const handleLogout = () => {
+    //     removeCookie('clientToken')
+    //     navigate('/login')
+    // }
   return (
     <div className='client-home'>
         <ClientHeader name='Space-O' title='We make your Space travel fantasies into reality' setAppear = {setAppear} allowBooking={allowBooking} />
         <ClientIntro  text='Book your Interstellar journey,' text2='View and Experience the Magic and the Beauty of the Universe' />
-        <ClientInfo text='Book your tickets now!' text2 = 'and confirm your seats in the nova cruiser space ship ' setAppear = {setAppear} allowBooking={allowBooking} />
+        <ClientInfo text='Book your tickets now!' text2 = 'and confirm your seats in the nova cruiser space ship ' setAppear = {setAppear} allowBooking={allowBooking} client={client} />
         <ClientBooking value = {appear} setAppear = {setAppear} setAllowBooking={setAllowBooking}  />
     </div>
   )

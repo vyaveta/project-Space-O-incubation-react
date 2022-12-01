@@ -24,6 +24,9 @@ const clientSchema = new mongoose__client.Schema({
     },
     isSeatAllocated: {
         type: Boolean, default: false
+    },
+    allocatedSeat: {
+        type: String, default: 'not allocated'
     }
 });
 module.exports = mongoose__client.model('Clients', clientSchema);

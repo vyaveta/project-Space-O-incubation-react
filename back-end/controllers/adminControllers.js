@@ -139,7 +139,7 @@ module.exports.getApprovedAndNonAllocatedApplications = (req, res) => __awaiter(
     try {
         const application = yield Applications.find({ isApproved: true, isDeclined: false, isAllocated: false });
         if (application[0] == null || !application[0])
-            return res.json({ status: true, msg: 'No applications to allocate' });
+            return res.json({ status: true, msg: 'No applications to allocate', application });
         return res.json({ status: true, msg: 'Success', application });
     }
     catch (err) {
@@ -158,11 +158,13 @@ module.exports.allocateSeatForClient = (req, res) => __awaiter(void 0, void 0, v
         if (seatName === 'windowL') {
             rocket.windowL[seatIndex].isBooked = true;
             rocket.windowL[seatIndex].user = client.clientname;
+            client.allocatedSeat = `Left window seat no: ${seatIndex}`;
             console.log('window L ', rocket);
         }
         else {
             rocket.windowR[seatIndex].isBooked = true;
             rocket.windowR[seatIndex].user = client.clientname;
+            client.allocatedSeat = `right window seat no: ${seatIndex}`;
         }
         const application = yield Applications.findOne({ clientEmail });
         application.isAllocated = true;
@@ -178,7 +180,7 @@ module.exports.allocateSeatForClient = (req, res) => __awaiter(void 0, void 0, v
             else
                 console.log('no error');
         });
-        application.save();
+        //   application.save()
         return res.json({ status: true, msg: `Successfully allocated WindowL seat to ${client.clientname}` });
     }
     catch (err) {
